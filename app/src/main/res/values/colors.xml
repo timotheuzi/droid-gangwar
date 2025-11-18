@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary">#FF6B35</color>
+    <color name="primary_dark">#E55A2B</color>
+    <color name="primary_light">#FF8A65</color>
+    <color name="accent">#FFD23F</color>
+    <color name="accent_dark">#F4C430</color>
+
+    <!-- Background Colors -->
+    <color name="city_background">#F5F5F5</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="status_background">#2C3E50</color>
+
+    <!-- Location Colors -->
+    <color name="crackhouse_primary">#8B4513</color>
+    <color name="crackhouse_secondary">#A0522D</color>
+    <color name="gunshack_primary">#FF4444</color>
+    <color name="gunshack_secondary">#CC0000</color>
+    <color name="bank_primary">#2E8B57</color>
+    <color name="bank_secondary">#228B22</color>
+    <color name="bar_primary">#8B4513</color>
+    <color name="bar_secondary">#654321</color>
+    <color name="infobooth_primary">#4169E1</color>
+    <color name="infobooth_secondary">#0000CD</color>
+    <color name="alleyway_primary">#696969</color>
+    <color name="alleyway_secondary">#2F2F2F</color>
+    <color name="picknsave_primary">#FF8C00</color>
+    <color name="picknsave_secondary">#FF6347</color>
+
+    <!-- Special Colors -->
+    <color name="wander_primary">#9370DB</color>
+    <color name="wander_secondary">#8A2BE2</color>
+    <color name="final_battle_primary">#DC143C</color>
+    <color name="final_battle_secondary">#B22222</color>
+
+    <!-- Status Colors -->
+    <color name="health_good">#4CAF50</color>
+    <color name="health_medium">#FF9800</color>
+    <color name="health_low">#F44336</color>
+    <color name="money_good">#4CAF50</color>
+    <color name="money_medium">#FF9800</color>
+    <color name="money_low">#F44336</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_black">#000000</color>
+
+    <!-- Button Colors -->
+    <color name="button_primary">#FF6B35</color>
+    <color name="button_pressed">#E55A2B</color>
+    <color name="button_disabled">#BDBDBD</color>
+
+    <!-- Card Colors -->
+    <color name="card_shadow">#1F000000</color>
+    <color name="card_border">#E0E0E0</color>
+</resources>

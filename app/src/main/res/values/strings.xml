@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Droid Gangwar</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Droid Gangwar</string>
+    <string name="nav_header_subtitle">Build your criminal empire</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <!-- Menu items -->
+    <string name="menu_city">City</string>
+    <string name="menu_crackhouse">Crackhouse</string>
+    <string name="menu_gunshack">Gun Shack</string>
+    <string name="menu_bank">Bank</string>
+    <string name="menu_bar">Bar</string>
+    <string name="menu_infobooth">Info Booth</string>
+    <string name="menu_alleyway">Alleyway</string>
+    <string name="menu_stats">Stats</string>
+    <string name="menu_final_battle">Final Battle</string>
+
+    <!-- Game messages -->
+    <string name="welcome_message">Welcome to Droid Gangwar!\nBuild your criminal empire in this gritty urban simulation.</string>
+    <string name="victory_message">Victory! You have defeated your enemies!</string>
+    <string name="defeat_message">Defeat! You have been defeated!</string>
+    <string name="game_over_message">Game Over! Your criminal empire has fallen.</string>
+
+    <!-- Location descriptions -->
+    <string name="city_description">The bustling city streets. Your criminal empire starts here.</string>
+    <string name="crackhouse_description">Big Johnny\'s Crack House - Buy and sell drugs here.</string>
+    <string name="gunshack_description">Little Johnny\'s Gun Shack - Purchase weapons and ammo.</string>
+    <string name="bank_description">Savings and Loan - Manage your finances.</string>
+    <string name="bar_description">Vagabond\'s Pub - Meet contacts and gather information.</string>
+    <string name="infobooth_description">Info Booth - Purchase special items and information.</string>
+    <string name="alleyway_description">Dark Alleyway - Explore dangerous places for hidden treasures.</string>
+    <string name="picknsave_description">Pick n Save - Gang management and supplies.</string>
+
+    <!-- Combat messages -->
+    <string name="combat_attack">Attack with weapon</string>
+    <string name="combat_defend">Defend and reduce damage</string>
+    <string name="combat_use_drug">Use drug</string>
+    <string name="combat_flee">Try to flee</string>
+
+    <!-- Drug names -->
+    <string name="drug_weed">Weed</string>
+    <string name="drug_crack">Crack</string>
+    <string name="drug_coke">Cocaine</string>
+    <string name="drug_ice">Ice</string>
+    <string name="drug_percs">Percocet</string>
+    <string name="drug_pixie_dust">Pixie Dust</string>
+
+    <!-- Weapon names -->
+    <string name="weapon_pistol">Pistol</string>
+    <string name="weapon_uzi">Uzi</string>
+    <string name="weapon_grenade">Grenade</string>
+    <string name="weapon_missile_launcher">Missile Launcher</string>
+    <string name="weapon_barbed_bat">Barbed Wire Bat</string>
+    <string name="weapon_knife">Knife</string>
+
+    <!-- Actions -->
+    <string name="action_buy">Buy</string>
+    <string name="action_sell">Sell</string>
+    <string name="action_trade">Trade</string>
+    <string name="action_fight">Fight</string>
+    <string name="action_explore">Explore</string>
+    <string name="action_wander">Wander</string>
+</resources>

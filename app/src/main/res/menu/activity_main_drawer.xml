@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_city"
+            android:icon="@drawable/ic_menu_city"
+            android:title="City" />
+        <item
+            android:id="@+id/nav_crackhouse"
+            android:icon="@drawable/ic_menu_crackhouse"
+            android:title="Crackhouse" />
+        <item
+            android:id="@+id/nav_gunshack"
+            android:icon="@drawable/ic_menu_gun"
+            android:title="Gun Shack" />
+        <item
+            android:id="@+id/nav_bank"
+            android:icon="@drawable/ic_menu_bank"
+            android:title="Bank" />
+        <item
+            android:id="@+id/nav_bar"
+            android:icon="@drawable/ic_menu_bar"
+            android:title="Bar" />
+        <item
+            android:id="@+id/nav_infobooth"
+            android:icon="@drawable/ic_menu_info"
+            android:title="Info Booth" />
+        <item
+            android:id="@+id/nav_alleyway"
+            android:icon="@drawable/ic_menu_alley"
+            android:title="Alleyway" />
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/ic_menu_stats"
+            android:title="Stats" />
+        <item
+            android:id="@+id/nav_final_battle"
+            android:icon="@drawable/ic_menu_battle"
+            android:title="Final Battle" />
+    </group>
+</menu>
