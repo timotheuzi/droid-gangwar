@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- TODO: Use <include> to control what data is backed up.
+        <include .../>
+        <exclude .../>
+        -->
+    </cloud-backup>
+    <!-- Device transfers are performed with Android Auto or Android Beam (Nearby Sharing) -->
+    <device-transfer>
+        <!-- TODO: Use <include> to control what data is transferred.
+        <include .../>
+        <exclude .../>
+        -->
+    </device-transfer>
+</data-extraction-rules>

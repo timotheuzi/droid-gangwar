@@ -155,6 +155,7 @@
 
         <!-- Location Grid -->
         <TextView
+            android:id="@+id/exploreTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -164,7 +165,7 @@
             android:textStyle="bold" />
 
         <GridLayout
-            android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:columnCount="2"
             android:rowCount="4">

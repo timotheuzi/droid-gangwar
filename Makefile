@@ -10,7 +10,7 @@ all: build
 build:
 	@echo "Building Droid Gangwar Android app..."
 	@command -v java >/dev/null 2>&1 || { echo "ERROR: Java is not installed."; echo "Please install Java 17+ (OpenJDK 17 or higher)."; echo "On Ubuntu/Debian: sudo apt install openjdk-17-jdk"; echo "Then set: export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64"; exit 1; }
-	@java -version 2>&1 | grep -q "version \"17\." || java -version 2>&1 | grep -q "version \"1[89]\." || { echo "ERROR: Java 17+ is required. Current version:"; java -version; exit 1; }
+	@java -version 2>&1 | grep -q "version \"1[789]\." || java -version 2>&1 | grep -q "version \"2[0-9]\." || { echo "ERROR: Java 17+ is required. Current version:"; java -version; exit 1; }
 	@echo "Java check passed. Building..."
 	@./gradlew assembleDebug
 
