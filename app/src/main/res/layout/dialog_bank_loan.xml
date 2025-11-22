@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Loan Amount"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <RadioGroup
+        android:id="@+id/loanOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/loan5000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="$5,000 (Recommended for small businesses)"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <RadioButton
+            android:id="@+id/loan10000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="$10,000 (Good for expanding operations)"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <RadioButton
+            android:id="@+id/loan25000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="$25,000 (Major expansion funding)"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <RadioButton
+            android:id="@+id/loan50000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="$50,000 (Large scale operations)"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <RadioButton
+            android:id="@+id/loan100000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="$100,000 (Gang war preparation)"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Warning: Loans accrue 5% interest daily!"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="14sp"
+        android:textStyle="italic" />
+
+</LinearLayout>

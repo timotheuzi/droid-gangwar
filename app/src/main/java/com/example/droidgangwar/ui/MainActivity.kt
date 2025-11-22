@@ -40,7 +40,8 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.nav_city, R.id.nav_crackhouse, R.id.nav_gunshack,
                 R.id.nav_bank, R.id.nav_bar, R.id.nav_infobooth,
-                R.id.nav_alleyway, R.id.nav_stats, R.id.nav_final_battle
+                R.id.nav_alleyway, R.id.nav_stats, R.id.nav_final_battle,
+                R.id.nav_mud_fight
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

@@ -64,6 +64,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         saveGameState()
     }
 
+    fun startCombat(enemyType: String, enemyCount: Int, enemyHealth: Int) {
+        // Navigate to mud fight with combat parameters
+        // This will be handled by the fragment navigation system
+        _currentScreen.value = "mud_fight"
+        saveGameState()
+    }
+
     fun buyWeapon(weaponType: String, quantity: Int = 1): Boolean {
         val gameState = _gameState.value ?: return false
 
@@ -199,8 +206,22 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun useDrug(drug: String) {
         val gameState = _gameState.value ?: return
-        val message = CombatSystem.useDrug(gameState, drug)
-        _gameMessage.value = message
+        val result = CombatSystem.useDrug(gameState, drug)
+        _gameMessage.value = result.message
+        if (result.success) {
+            if (result.healthChange != 0) {
+                if (result.healthChange > 0) {
+                    gameState.heal(result.healthChange)
+                } else {
+                    gameState.takeDamage(-result.healthChange)
+                }
+            }
+            // Update drug count if successful
+            when (drug) {
+                "crack" -> gameState.drugs.crack--
+                "percs" -> gameState.drugs.percs--
+            }
+        }
         saveGameState()
     }
 

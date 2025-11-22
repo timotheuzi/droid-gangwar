@@ -15,10 +15,13 @@
     <!-- Location Colors -->
     <color name="crackhouse_primary">#8B4513</color>
     <color name="crackhouse_secondary">#A0522D</color>
+    <color name="crackhouse_background">#F5DEB3</color>
+
     <color name="gunshack_primary">#FF4444</color>
     <color name="gunshack_secondary">#CC0000</color>
     <color name="bank_primary">#2E8B57</color>
     <color name="bank_secondary">#228B22</color>
+    <color name="bank_background">#F0FFF0</color>
     <color name="bar_primary">#8B4513</color>
     <color name="bar_secondary">#654321</color>
     <color name="infobooth_primary">#4169E1</color>

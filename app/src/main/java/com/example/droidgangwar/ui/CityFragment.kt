@@ -121,15 +121,10 @@ class CityFragment : Fragment() {
     private fun showScreenForLocation(screen: String) {
         when (screen) {
             "city" -> showCityScreen()
-            "crackhouse" -> showCrackhouseScreen()
-            "gunshack" -> showGunshackScreen()
-            "bank" -> showBankScreen()
-            "bar" -> showBarScreen()
-            "infobooth" -> showInfoboothScreen()
-            "alleyway" -> showAlleywayScreen()
-            "picknsave" -> showPicknsaveScreen()
-            "final_battle" -> showFinalBattleScreen()
-            else -> showCityScreen()
+            else -> {
+                // For other screens, the navigation is handled by MainActivity
+
+            }
         }
     }
 

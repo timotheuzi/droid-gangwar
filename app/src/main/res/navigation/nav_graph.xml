@@ -13,8 +13,9 @@
 
     <fragment
         android:id="@+id/nav_crackhouse"
-        android:name="com.example.droidgangwar.ui.CityFragment"
-        android:label="Crackhouse" />
+        android:name="com.example.droidgangwar.ui.CrackhouseFragment"
+        android:label="Crackhouse"
+        tools:layout="@layout/fragment_crackhouse" />
 
     <fragment
         android:id="@+id/nav_gunshack"
@@ -23,8 +24,9 @@
 
     <fragment
         android:id="@+id/nav_bank"
-        android:name="com.example.droidgangwar.ui.CityFragment"
-        android:label="Bank" />
+        android:name="com.example.droidgangwar.ui.BankFragment"
+        android:label="Bank"
+        tools:layout="@layout/fragment_bank" />
 
     <fragment
         android:id="@+id/nav_bar"
@@ -55,5 +57,11 @@
         android:id="@+id/nav_game_over"
         android:name="com.example.droidgangwar.ui.CityFragment"
         android:label="Game Over" />
+
+    <fragment
+        android:id="@+id/nav_mud_fight"
+        android:name="com.example.droidgangwar.ui.MudFightFragment"
+        android:label="Mud Fight"
+        tools:layout="@layout/fragment_mud_fight" />
 
 </navigation>
