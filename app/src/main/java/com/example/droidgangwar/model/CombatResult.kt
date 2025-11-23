@@ -1,13 +1,13 @@
 package com.example.droidgangwar.model
 
 data class CombatResult(
-    val victory: Boolean = false,
-    val defeat: Boolean = false,
-    val damageDealt: Int = 0,
-    val damageTaken: Int = 0,
-    val enemiesKilled: Int = 0,
-    val message: String = "",
-    val fightLog: MutableList<String> = mutableListOf()
+    var victory: Boolean = false,
+    var defeat: Boolean = false,
+    var damageDealt: Int = 0,
+    var damageTaken: Int = 0,
+    var enemiesKilled: Int = 0,
+    var message: String = "",
+    var fightLog: MutableList<String> = mutableListOf()
 )
 
 data class DrugUseResult(

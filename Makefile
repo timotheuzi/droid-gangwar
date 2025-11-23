@@ -12,22 +12,22 @@ build:
 	@command -v java >/dev/null 2>&1 || { echo "ERROR: Java is not installed."; echo "Please install Java 17+ (OpenJDK 17 or higher)."; echo "On Ubuntu/Debian: sudo apt install openjdk-17-jdk"; echo "Then set: export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64"; exit 1; }
 	@java -version 2>&1 | grep -q "version \"1[789]\." || java -version 2>&1 | grep -q "version \"2[0-9]\." || { echo "ERROR: Java 17+ is required. Current version:"; java -version; exit 1; }
 	@echo "Java check passed. Building..."
-	@./gradlew assembleDebug
+	@export JAVA_HOME=/home/bim/jdk/jdk-21.0.2 && export PATH=$$JAVA_HOME/bin:$$PATH && ./gradlew assembleDebug
 
 # Build release APK
 release:
 	@echo "Building Droid Gangwar release APK..."
-	@./gradlew assembleRelease
+	@export JAVA_HOME=/home/bim/jdk/jdk-21.0.2 && export PATH=$$JAVA_HOME/bin:$$PATH && ./gradlew assembleRelease
 
 # Build debug APK
 debug:
 	@echo "Building Droid Gangwar debug APK..."
-	@./gradlew assembleDebug
+	@export JAVA_HOME=/home/bim/jdk/jdk-21.0.2 && export PATH=$$JAVA_HOME/bin:$$PATH && ./gradlew assembleDebug
 
 # Build and install on connected device
 install: build
 	@echo "Installing Droid Gangwar on connected device..."
-	@./gradlew installDebug
+	@export JAVA_HOME=/home/bim/jdk/jdk-21.0.2 && export PATH=$$JAVA_HOME/bin:$$PATH && ./gradlew installDebug
 
 # Build and run on connected device
 run: install
@@ -37,6 +37,7 @@ run: install
 # Clean build artifacts
 clean:
 	@echo "Cleaning Android build artifacts..."
+	@./gradlew --stop
 	@./gradlew clean
 	@rm -rf app/build/
 	@rm -rf build/
@@ -85,12 +86,12 @@ setup:
 # Test the app
 test:
 	@echo "Running Android tests..."
-	@./gradlew test
+	@export JAVA_HOME=/home/bim/jdk/jdk-21.0.2 && export PATH=$$JAVA_HOME/bin:$$PATH && ./gradlew test
 
 # Lint check
 lint:
 	@echo "Running Android lint checks..."
-	@./gradlew lint
+	@export JAVA_HOME=/home/bim/jdk/jdk-21.0.2 && export PATH=$$JAVA_HOME/bin:$$PATH && ./gradlew lint
 
 # Show help
 help:

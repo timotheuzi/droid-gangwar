@@ -54,18 +54,19 @@ object CombatSystem {
         var currentEnemyHealth = enemyHealth
         var currentEnemyCount = enemyCount
 
-        // Player's attack
-        val playerDamage = calculatePlayerDamage(gameState, weapon, result.fightLog)
+        // Player's attack - these must be var because they might need reassignment
+        var playerDamage = calculatePlayerDamage(gameState, weapon, result.fightLog)
         currentEnemyHealth -= playerDamage
 
-        // Gang members' attacks
-        val gangDamage = calculateGangDamage(gameState, currentEnemyCount, result.fightLog)
+        // Gang members' attacks - these must be var because they might need reassignment
+        var gangDamage = calculateGangDamage(gameState, currentEnemyCount, result.fightLog)
         currentEnemyHealth -= gangDamage
 
-        val totalDamage = playerDamage + gangDamage
+        // Total damage - must be var because it might be modified later
+        var totalDamage = playerDamage + gangDamage
 
-        // Calculate enemies killed
-        val enemiesKilled = calculateEnemiesKilled(totalDamage, currentEnemyCount, enemyHealth)
+        // Calculate enemies killed - must be var because it might be modified
+        var enemiesKilled = calculateEnemiesKilled(totalDamage, currentEnemyCount, enemyHealth)
         currentEnemyCount -= enemiesKilled
 
         // Add kill messages
