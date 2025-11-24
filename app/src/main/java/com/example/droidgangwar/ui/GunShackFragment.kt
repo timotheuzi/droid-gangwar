@@ -77,6 +77,51 @@ class GunShackFragment : Fragment() {
                 purchaseWeapon("heavy_vest", 35000)
             }
 
+            // Pistol upgrade buttons
+            pistolDamageUpgradeButton.setOnClickListener {
+                if (hasPistol()) {
+                    purchasePistolUpgrade("damage", 5000)
+                } else {
+                    showMessage("You need a pistol first!")
+                }
+            }
+
+            pistolAccuracyUpgradeButton.setOnClickListener {
+                if (hasPistol()) {
+                    purchasePistolUpgrade("accuracy", 4500)
+                } else {
+                    showMessage("You need a pistol first!")
+                }
+            }
+
+            pistolMagazineUpgradeButton.setOnClickListener {
+                if (hasPistol()) {
+                    purchasePistolUpgrade("magazine", 3000)
+                } else {
+                    showMessage("You need a pistol first!")
+                }
+            }
+
+            pistolUpgradeToggle.setOnClickListener {
+                val gameState = gameViewModel.gameState.value ?: return@setOnClickListener
+                if (gameState.pistolUpgraded) {
+                    gameState.pistolUpgraded = false
+                    pistolUpgradeToggle.text = "Enable Pistol Upgrade"
+                    showMessage("Pistol upgrade disabled!")
+                } else {
+                    if (gameState.pistolUpgradeType != "none") {
+                        gameState.pistolUpgraded = true
+                        pistolUpgradeToggle.text = "Disable Pistol Upgrade"
+                        showMessage("Pistol upgrade enabled!")
+                    } else {
+                        showMessage("Purchase an upgrade first!")
+                    }
+                }
+                gameViewModel.saveGameState()
+
+                updateUI(gameState)
+            }
+
             backButton.setOnClickListener {
                 gameViewModel.navigateToScreen("city")
             }
@@ -96,6 +141,41 @@ class GunShackFragment : Fragment() {
         }
     }
 
+    private fun hasPistol(): Boolean {
+        val gameState = gameViewModel.gameState.value ?: return false
+        return gameState.weapons.pistols > 0 || gameState.weapons.ghostGuns > 0
+    }
+
+    private fun purchasePistolUpgrade(upgradeType: String, price: Int) {
+        val gameState = gameViewModel.gameState.value ?: return
+
+        // Check if player can afford
+        if (gameState.money < price) {
+            showMessage("Not enough money! Need $$price")
+            return
+        }
+
+        // Check if they already have an upgrade
+        if (gameState.pistolUpgradeType != "none") {
+            showMessage("You already have a pistol upgrade! Can only have one type.")
+            return
+        }
+
+        // Purchase upgrade
+        gameState.money -= price
+        gameState.pistolUpgradeType = upgradeType
+
+        val upgradeNames = mapOf(
+            "damage" to "Pistol Damage Upgrade (+50% damage)",
+            "accuracy" to "Pistol Accuracy Upgrade (+5 damage)",
+            "magazine" to "Pistol Magazine Upgrade (+50% ammo capacity)"
+        )
+
+        gameViewModel.saveGameState()
+        updateUI(gameState)
+        showMessage("Purchased ${upgradeNames[upgradeType] ?: "pistol upgrade"} for $$price!")
+    }
+
     private fun showMessage(message: String) {
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
             .setMessage(message)
@@ -107,4 +187,8 @@ class GunShackFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+lateinit var pistolDamageUpgradeButton: android.widget.Button
+lateinit var pistolAccuracyUpgradeButton: android.widget.Button
+lateinit var pistolMagazineUpgradeButton: android.widget.Button
+lateinit var pistolUpgradeToggle: android.widget.ToggleButton
 }

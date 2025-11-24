@@ -48,7 +48,7 @@ object CombatSystem {
         weapon: String,
         enemyType: String,
         enemyCount: Int,
-        enemyHealth: Int
+        enemyHealth: Double
     ): CombatResult {
         val result = CombatResult()
         var currentEnemyHealth = enemyHealth
@@ -56,18 +56,18 @@ object CombatSystem {
 
         // Player's attack - these must be var because they might need reassignment
         var playerDamage = calculatePlayerDamage(gameState, weapon, result.fightLog)
-        currentEnemyHealth -= playerDamage
+        currentEnemyHealth = currentEnemyHealth - playerDamage
 
         // Gang members' attacks - these must be var because they might need reassignment
         var gangDamage = calculateGangDamage(gameState, currentEnemyCount, result.fightLog)
-        currentEnemyHealth -= gangDamage
+        currentEnemyHealth = currentEnemyHealth - gangDamage
 
         // Total damage - must be var because it might be modified later
         var totalDamage = playerDamage + gangDamage
 
         // Calculate enemies killed - must be var because it might be modified
         var enemiesKilled = calculateEnemiesKilled(totalDamage, currentEnemyCount, enemyHealth)
-        currentEnemyCount -= enemiesKilled
+        currentEnemyCount = currentEnemyCount - enemiesKilled
 
         // Add kill messages
         addKillMessages(enemyType, enemiesKilled, result.fightLog)
@@ -90,121 +90,87 @@ object CombatSystem {
             }
         }
 
-        result.damageDealt = totalDamage
+        result.damageDealt = totalDamage.toInt()
         result.enemiesKilled = enemiesKilled
         return result
     }
 
-    private fun calculatePlayerDamage(gameState: GameState, weapon: String, fightLog: MutableList<String>): Int {
+    private fun calculatePlayerDamage(gameState: GameState, weapon: String, fightLog: MutableList<String>): Double {
         return when (weapon) {
             "pistol" -> {
                 if (gameState.weapons.pistols > 0 && gameState.weapons.bullets > 0) {
-                    val damage = Random.nextInt(15, 26)
-                    fightLog.add("${attackMessages["pistol"]} ($damage damage)")
+                    val baseDamage = Random.nextInt(15, 26).toDouble()
+                    val damage = when (gameState.pistolUpgradeType) {
+                        "damage" -> baseDamage * 1.5 // +50% damage
+                        "accuracy" -> baseDamage + 5.0 // +5 flat damage bonus
+                        "magazine" -> baseDamage // No damage bonus but +50% ammo capacity
+                        else -> baseDamage
+                    }
+                    val upgradeText = if (gameState.pistolUpgraded) " (upgraded)" else ""
+                    fightLog.add("${attackMessages["pistol"]}${upgradeText} (${damage.toInt()} damage)")
                     damage
-                } else 0
+                } else 0.0
             }
             "ghost_gun" -> {
                 if (gameState.weapons.ghostGuns > 0 && gameState.weapons.bullets > 0) {
-                    val damage = Random.nextInt(15, 26)
-                    fightLog.add("${attackMessages["ghost_gun"]} ($damage damage)")
+                    val damage = Random.nextInt(15, 26).toDouble()
+                    fightLog.add("${attackMessages["ghost_gun"]} (${damage.toInt()} damage)")
                     damage
-                } else 0
+                } else 0.0
             }
             "uzi" -> {
                 if (gameState.weapons.uzis > 0 && gameState.weapons.bullets >= 3) {
-                    val damage = Random.nextInt(20, 41)
-                    fightLog.add("${attackMessages["uzi"]} ($damage damage)")
+                    val damage = Random.nextInt(20, 41).toDouble()
+                    fightLog.add("${attackMessages["uzi"]} (${damage.toInt()} damage)")
                     damage
-                } else 0
+                } else 0.0
             }
             "grenade" -> {
                 if (gameState.weapons.grenades > 0) {
-                    val damage = Random.nextInt(30, 61)
-                    fightLog.add("${attackMessages["grenade"]} ($damage damage)")
+                    val damage = Random.nextInt(30, 61).toDouble()
+                    fightLog.add("${attackMessages["grenade"]} (${damage.toInt()} damage)")
                     damage
-                } else 0
+                } else 0.0
             }
             "missile_launcher" -> {
                 if (gameState.weapons.missileLauncher > 0 && gameState.weapons.missiles > 0) {
-                    val damage = Random.nextInt(50, 101)
-                    fightLog.add("${attackMessages["missile_launcher"]} ($damage damage)")
+                    val damage = Random.nextInt(50, 101).toDouble()
+                    fightLog.add("${attackMessages["missile_launcher"]} (${damage.toInt()} damage)")
                     damage
-                } else 0
+                } else 0.0
             }
             "barbed_wire_bat" -> {
                 if (gameState.weapons.barbedWireBat > 0) {
-                    val damage = Random.nextInt(25, 46)
-                    fightLog.add("${attackMessages["barbed_wire_bat"]} ($damage damage)")
+                    val damage = Random.nextInt(25, 46).toDouble()
+                    fightLog.add("${attackMessages["barbed_wire_bat"]} (${damage.toInt()} damage)")
                     damage
-                } else 0
+                } else 0.0
             }
             "knife" -> {
-                val damage = Random.nextInt(10, 21)
-                fightLog.add("${attackMessages["knife"]} ($damage damage)")
+                val damage = Random.nextInt(10, 21).toDouble()
+                fightLog.add("${attackMessages["knife"]} (${damage.toInt()} damage)")
                 damage
             }
-            else -> 0
+            else -> 0.0
         }
     }
 
-    private fun calculateGangDamage(gameState: GameState, enemyCount: Int, fightLog: MutableList<String>): Int {
-        var totalGangDamage = 0
+    private fun calculateGangDamage(gameState: GameState, enemyCount: Int, fightLog: MutableList<String>): Double {
+        val gangMembers = gameState.members - 1
+        if (gangMembers <= 0) return 0.0
 
-        if (gameState.members <= 1) return 0 // No gang members to help
-
-        val gangMemberCount = minOf(gameState.members - 1, 5) // Max 5 gang members attack
-
-        // Check available weapons for gang members
-        val availableWeapons = mutableListOf<String>()
-        if (gameState.weapons.pistols > 1 && gameState.weapons.bullets >= gangMemberCount) {
-            availableWeapons.add("pistol")
-        }
-        if (gameState.weapons.uzis > 0 && gameState.weapons.bullets >= gangMemberCount * 3) {
-            availableWeapons.add("uzi")
-        }
-        if (gameState.weapons.barbedWireBat > 0) {
-            availableWeapons.add("barbed_wire_bat")
-        }
-        if (gameState.weapons.knife > 0) {
-            availableWeapons.add("knife")
-        }
-
-        if (availableWeapons.isEmpty()) return 0
-
-        // Each gang member attacks
-        for (i in 0 until gangMemberCount) {
-            val weapon = availableWeapons.random()
-            val damage = when (weapon) {
-                "pistol" -> {
-                    Random.nextInt(10, 21)
-                }
-                "uzi" -> {
-                    Random.nextInt(15, 31)
-                }
-                "barbed_wire_bat" -> Random.nextInt(15, 26)
-                "knife" -> Random.nextInt(8, 16)
-                else -> 0
-            }
-
-            if (damage > 0) {
-                totalGangDamage += damage
-                fightLog.add("Gang member ${i + 1} attacks with ${weapon.replace("_", " ")}, dealing $damage damage!")
-            }
-        }
-
-        return totalGangDamage
+        val damage = gangMembers.toDouble() * Random.nextInt(1, 6)
+        fightLog.add("Your gang members deal ${damage.toInt()} damage!")
+        return damage
     }
 
-    private fun calculateEnemiesKilled(totalDamage: Int, enemyCount: Int, maxEnemyHealth: Int): Int {
+    private fun calculateEnemiesKilled(totalDamage: Double, enemyCount: Int, maxEnemyHealth: Double): Int {
         if (totalDamage <= 0) return 0
 
-        // Estimate based on average enemy HP (around 20)
-        val avgEnemyHp = 20
-        val estimatedKilled = minOf(enemyCount, maxOf(1, totalDamage / avgEnemyHp))
+        val estimatedKilled = minOf(enemyCount, maxOf(1, (totalDamage / (maxEnemyHealth / enemyCount)).toInt()))
 
         // If damage exceeds remaining health, kill all remaining enemies
-        val totalEnemyHp = enemyCount * (maxEnemyHealth / maxOf(1, enemyCount))
+        val totalEnemyHp = enemyCount * maxEnemyHealth
         return if (totalDamage >= totalEnemyHp) enemyCount else estimatedKilled
     }
 
@@ -274,4 +240,5 @@ object CombatSystem {
         }
         return Pair(success, message)
     }
+
 }

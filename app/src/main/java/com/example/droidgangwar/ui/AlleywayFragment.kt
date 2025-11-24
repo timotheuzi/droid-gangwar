@@ -151,11 +151,14 @@ class AlleywayFragment : Fragment() {
             
             // Handle combat events
             when (exploreEvent.type) {
-                EventType.POLICE_CHASE,
-                EventType.GANG_FIGHT,
+                EventType.POLICE_CHASE -> {
+                    startMudFight("Police Officers", (3..5).random(), "Police attack!")
+                }
+                EventType.GANG_FIGHT -> {
+                    startMudFight("Gang Members", (2..6).random(), "Rival gang attacks!")
+                }
                 EventType.SQUIDIE_HIT_SQUAD -> {
-                    // Start combat - for now just show message
-                    showMessage("Combat initiated! This would normally start a MUD fight sequence.")
+                    startMudFight("Squidie Hit Squad", (2..4).random(), "Squidie assassins strike!")
                 }
                 else -> {
                     // Regular event - continue exploring
@@ -282,6 +285,21 @@ class AlleywayFragment : Fragment() {
             .setMessage(description)
             .setPositiveButton("OK", null)
             .show()
+    }
+
+    private fun startMudFight(enemyType: String, enemyCount: Int, initialMessage: String) {
+        val enemyHealth = when (enemyType) {
+            "Police Officers" -> enemyCount * 12
+            "Gang Members" -> enemyCount * 15
+            "Squidie Hit Squad" -> enemyCount * 20
+            else -> enemyCount * 15
+        }
+
+        val combatId = "alley_combat_${System.currentTimeMillis()}"
+        val initialLog = arrayListOf(initialMessage)
+
+        // Navigate to MudFightFragment with combat parameters via ViewModel
+        gameViewModel.startMudFight(enemyHealth, enemyCount, enemyType, combatId, initialLog)
     }
 
     override fun onDestroyView() {

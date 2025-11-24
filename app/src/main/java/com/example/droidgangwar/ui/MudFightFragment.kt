@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.droidgangwar.R
+
+
 import com.example.droidgangwar.databinding.FragmentMudFightBinding
 import com.example.droidgangwar.model.CombatSystem
+import com.example.droidgangwar.ui.GameViewModel
 
 class MudFightFragment : Fragment() {
 
@@ -17,7 +19,7 @@ class MudFightFragment : Fragment() {
     private val binding get() = _binding!!
     private val gameViewModel: GameViewModel by activityViewModels()
 
-    private var enemyHealth: Int = 0
+    private var enemyHealth: Double = 0.0
     private var enemyCount: Int = 0
     private var enemyType: String = ""
     private var combatId: String = ""
@@ -37,7 +39,7 @@ class MudFightFragment : Fragment() {
 
         // Get combat parameters from arguments
         arguments?.let { args ->
-            enemyHealth = args.getInt("enemy_health", 30)
+            enemyHealth = args.getDouble("enemy_health", 30.0)
             enemyCount = args.getInt("enemy_count", 1)
             enemyType = args.getString("enemy_type", "Enemy")
             combatId = args.getString("combat_id", "combat_${System.currentTimeMillis()}")
@@ -333,7 +335,7 @@ class MudFightFragment : Fragment() {
 
     companion object {
         fun newInstance(
-            enemyHealth: Int,
+            enemyHealth: Double,
             enemyCount: Int,
             enemyType: String,
             combatId: String,
@@ -341,7 +343,7 @@ class MudFightFragment : Fragment() {
         ): MudFightFragment {
             val fragment = MudFightFragment()
             val args = Bundle()
-            args.putInt("enemy_health", enemyHealth)
+            args.putDouble("enemy_health", enemyHealth)
             args.putInt("enemy_count", enemyCount)
             args.putString("enemy_type", enemyType)
             args.putString("combat_id", combatId)

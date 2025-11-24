@@ -128,14 +128,14 @@ object RandomEventData {
     fun generateRandomEvent(gameState: com.example.droidgangwar.model.GameState): RandomEvent {
         val random = Random(System.currentTimeMillis())
         
-        // Event probabilities based on gangwar_ref source
+        // Event probabilities based on gangwar_ref source, increased fight frequency
         val eventTypes = when {
             random.nextFloat() < 0.08f -> EventType.BABY_MOMMA_INCIDENT // 8% chance
-            random.nextFloat() < 0.10f -> EventType.POLICE_CHASE // 10% chance (cumulative)
-            random.nextFloat() < 0.22f -> EventType.GANG_FIGHT // 12% chance (cumulative)
-            random.nextFloat() < 0.24f -> EventType.SQUIDIE_HIT_SQUAD // 2% chance (cumulative, scales with gang power)
-            random.nextFloat() < 0.39f -> EventType.NPC_ENCOUNTER // 15% chance (cumulative)
-            else -> EventType.TREASURE_FIND // Remaining 61% chance for peaceful events
+            random.nextFloat() < 0.15f -> EventType.POLICE_CHASE // 15% chance (increased for more fights)
+            random.nextFloat() < 0.30f -> EventType.GANG_FIGHT // 15% chance (increased for more mud fights)
+            random.nextFloat() < 0.35f -> EventType.SQUIDIE_HIT_SQUAD // 5% chance (increased for more fights)
+            random.nextFloat() < 0.45f -> EventType.NPC_ENCOUNTER // 10% chance
+            else -> EventType.TREASURE_FIND // Remaining 55% chance for peaceful events
         }
         
         return when (eventTypes) {

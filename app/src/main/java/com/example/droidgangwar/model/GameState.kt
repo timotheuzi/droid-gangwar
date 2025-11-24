@@ -40,7 +40,12 @@ data class GameState(
 
     var flags: Flags = Flags(),
     var weapons: Weapons = Weapons(),
-    var drugs: Drugs = Drugs()
+    var drugs: Drugs = Drugs(),
+
+    // Pistol upgrade properties
+    var pistolUpgradeType: String = "",
+    var pistolUpgraded: Boolean = false,
+    var pistolUpgradeToggle: Boolean = false
 ) {
     fun updateCurrentScore() {
         val moneyEarned = money + account
@@ -144,10 +149,10 @@ data class Drugs(
 ) {
     fun getTotalValue(prices: Map<String, Int>): Int {
         return weed * (prices["weed"] ?: 0) +
-               crack * (prices["crack"] ?: 0) +
-               coke * (prices["coke"] ?: 0) +
-               ice * (prices["ice"] ?: 0) +
-               percs * (prices["percs"] ?: 0) +
-               pixieDust * (prices["pixie_dust"] ?: 0)
+                crack * (prices["crack"] ?: 0) +
+                coke * (prices["coke"] ?: 0) +
+                ice * (prices["ice"] ?: 0) +
+                percs * (prices["percs"] ?: 0) +
+                pixieDust * (prices["pixie_dust"] ?: 0)
     }
 }

@@ -1,6 +1,8 @@
 package com.example.droidgangwar.ui
 
 import android.app.Application
+import java.lang.Math.*
+
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -71,6 +73,12 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         saveGameState()
     }
 
+    fun startMudFight(enemyHealth: Int, enemyCount: Int, enemyType: String, combatId: String, initialLog: ArrayList<String>) {
+        // Navigate to mud fight and fragments will handle parameters via arguments
+        _currentScreen.value = "mud_fight_${combatId}_${enemyHealth}_${enemyCount}_${enemyType}"
+        saveGameState()
+    }
+
     fun buyWeapon(weaponType: String, quantity: Int = 1): Boolean {
         val gameState = _gameState.value ?: return false
 
@@ -113,7 +121,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         return true
     }
 
-    fun tradeDrugs(action: String, drugType: String, quantity: Int): Boolean {
+    fun tradeDrug(drugType: String, action: String, quantity: Int): Boolean {
         val gameState = _gameState.value ?: return false
 
         val price = gameState.drugPrices[drugType] ?: return false
@@ -211,7 +219,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         if (result.success) {
             if (result.healthChange != 0) {
                 if (result.healthChange > 0) {
-                    gameState.heal(result.healthChange)
+                    gameState.heal(result.healthChange.toDouble())
                 } else {
                     gameState.takeDamage(-result.healthChange)
                 }
@@ -240,8 +248,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         return when (action) {
             "quick_service" -> {
                 if (gameState.spendMoney(200)) {
-                    val healthGain = (5..15).random()
-                    gameState.heal(healthGain)
+
+                    gameState.heal(healthGain.toDouble())
                     _gameMessage.value = "You enjoyed a quick service and gained $healthGain health!"
                     saveGameState()
                     true
@@ -404,4 +412,5 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private fun Int.formatWithCommas(): String {
         return String.format("%,d", this)
     }
+
 }

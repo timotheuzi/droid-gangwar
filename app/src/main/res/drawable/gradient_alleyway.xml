@@ -2,6 +2,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
         android:startColor="@color/alleyway_primary"
+        android:centerColor="#FF8C00"
         android:endColor="@color/alleyway_secondary"
         android:angle="0" />
+    <stroke
+        android:width="2dp"
+        android:color="#FFD700" />
+    <corners android:radius="12dp" />
 </shape>

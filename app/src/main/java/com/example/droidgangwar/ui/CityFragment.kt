@@ -112,8 +112,7 @@ class CityFragment : Fragment() {
 
             // Wander the streets
             wanderButton.setOnClickListener {
-                val result = gameViewModel.wander()
-                showWanderResult(result)
+                performWanderExploration()
             }
 
             // Final battle (only visible when ready)
@@ -203,8 +202,58 @@ class CityFragment : Fragment() {
             .show()
     }
 
+    private fun performWanderExploration() {
+        val gameState = gameViewModel.gameState.value ?: return
+
+        // Generate random exploration event
+        val exploreEvent = com.example.droidgangwar.data.RandomEventData.generateWanderingEvent(gameState)
+
+        // Check if event meets requirements
+        if (com.example.droidgangwar.data.RandomEventData.hasMeetRequirements(exploreEvent, gameState)) {
+            // Apply event effects
+            com.example.droidgangwar.data.RandomEventData.applyEventEffects(exploreEvent, gameState)
+
+            // Handle combat events
+            when (exploreEvent.type) {
+                com.example.droidgangwar.model.EventType.GANG_FIGHT -> {
+                    startMudFight("Gang Members", (2..6).random(), "Rival gang ambushes you while wandering!")
+                }
+                com.example.droidgangwar.model.EventType.POLICE_CHASE -> {
+                    startMudFight("Police Officers", (3..5).random(), "Police patrol spots you!")
+                }
+                com.example.droidgangwar.model.EventType.SQUIDIE_HIT_SQUAD -> {
+                    startMudFight("Squidie Hit Squad", (2..4).random(), "Squidie assassins track you down!")
+                }
+                else -> {
+                    // Regular event - show results
+                    showWanderResult(exploreEvent.description)
+                }
+            }
+
+            // Update game state and increment steps
+            gameViewModel.updateGameState(gameState)
+            gameViewModel.incrementSteps()
+        }
+    }
+
+    private fun startMudFight(enemyType: String, enemyCount: Int, initialMessage: String) {
+        val enemyHealth = when (enemyType) {
+            "Police Officers" -> enemyCount * 12
+            "Gang Members" -> enemyCount * 15
+            "Squidie Hit Squad" -> enemyCount * 20
+            else -> enemyCount * 15
+        }
+
+        val combatId = "city_wander_combat_${System.currentTimeMillis()}"
+        val initialLog = arrayListOf(initialMessage)
+
+        // Navigate to MudFightFragment with combat parameters via ViewModel
+        gameViewModel.startMudFight(enemyHealth, enemyCount, enemyType, combatId, initialLog)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
+
+}
 }
