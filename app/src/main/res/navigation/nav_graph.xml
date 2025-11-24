@@ -19,8 +19,9 @@
 
     <fragment
         android:id="@+id/nav_gunshack"
-        android:name="com.example.droidgangwar.ui.CityFragment"
-        android:label="Gun Shack" />
+        android:name="com.example.droidgangwar.ui.GunShackFragment"
+        android:label="Gun Shack"
+        tools:layout="@layout/fragment_gunshack" />
 
     <fragment
         android:id="@+id/nav_bank"
@@ -30,28 +31,39 @@
 
     <fragment
         android:id="@+id/nav_bar"
-        android:name="com.example.droidgangwar.ui.CityFragment"
-        android:label="Bar" />
+        android:name="com.example.droidgangwar.ui.BarFragment"
+        android:label="Bar"
+        tools:layout="@layout/fragment_bar" />
 
     <fragment
         android:id="@+id/nav_infobooth"
-        android:name="com.example.droidgangwar.ui.CityFragment"
-        android:label="Info Booth" />
+        android:name="com.example.droidgangwar.ui.InfoBoothFragment"
+        android:label="Info Booth"
+        tools:layout="@layout/fragment_infobooth" />
 
     <fragment
         android:id="@+id/nav_alleyway"
-        android:name="com.example.droidgangwar.ui.CityFragment"
-        android:label="Alleyway" />
+        android:name="com.example.droidgangwar.ui.AlleywayFragment"
+        android:label="Alleyway"
+        tools:layout="@layout/fragment_alleyway" />
+
+    <fragment
+        android:id="@+id/nav_picknsave"
+        android:name="com.example.droidgangwar.ui.PickNSaveFragment"
+        android:label="Pick n Save"
+        tools:layout="@layout/fragment_picknsave" />
 
     <fragment
         android:id="@+id/nav_stats"
-        android:name="com.example.droidgangwar.ui.CityFragment"
-        android:label="Stats" />
+        android:name="com.example.droidgangwar.ui.InfoBoothFragment"
+        android:label="Stats"
+        tools:layout="@layout/fragment_infobooth" />
 
     <fragment
         android:id="@+id/nav_final_battle"
-        android:name="com.example.droidgangwar.ui.CityFragment"
-        android:label="Final Battle" />
+        android:name="com.example.droidgangwar.ui.MudFightFragment"
+        android:label="Final Battle"
+        tools:layout="@layout/fragment_mud_fight" />
 
     <fragment
         android:id="@+id/nav_game_over"

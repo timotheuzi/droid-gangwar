@@ -153,6 +153,73 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Current Street Prices -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_status"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Current Street Prices:"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Weed: $500 per kilo"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Crack: $800 per kilo"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cocaine: $1200 per kilo"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ice: $600 per kilo"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Percs: $300 per kilo"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pixie Dust: $400 per kilo"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <!-- Location Grid -->
         <TextView
             android:id="@+id/exploreTitle"
@@ -168,9 +235,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="2"
-            android:rowCount="4">
+            android:rowCount="5">
 
-            <!-- Crackhouse -->
+            <!-- Big Johnny's Crack House -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/crackhouseCard"
                 android:layout_width="0dp"
@@ -191,7 +258,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="Crackhouse"
+                        android:contentDescription="Big Johnny's Crack House"
                         android:src="@drawable/ic_crackhouse"
                         app:tint="@android:color/white" />
 
@@ -199,21 +266,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Crackhouse"
+                        android:text="Big Johnny's Crack House"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Buy &amp; Sell Drugs"
+                        android:text="Buy and sell drugs"
                         android:textColor="@android:color/white"
-                        android:textSize="10sp" />
+                        android:textSize="9sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Gun Shack -->
+            <!-- The Boom Shack -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/gunshackCard"
                 android:layout_width="0dp"
@@ -234,7 +301,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="Gun Shack"
+                        android:contentDescription="The Boom Shack"
                         android:src="@drawable/ic_gun"
                         app:tint="@android:color/white" />
 
@@ -242,64 +309,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Gun Shack"
+                        android:text="The Boom Shack"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Buy Weapons"
+                        android:text="Purchase weapons"
                         android:textColor="@android:color/white"
-                        android:textSize="10sp" />
+                        android:textSize="9sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Bank -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/bankCard"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/gradient_bank"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="Bank"
-                        android:src="@drawable/ic_bank"
-                        app:tint="@android:color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Bank"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Manage Money"
-                        android:textColor="@android:color/white"
-                        android:textSize="10sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Bar -->
+            <!-- Vagabond's Pub -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/barCard"
                 android:layout_width="0dp"
@@ -320,7 +344,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="Bar"
+                        android:contentDescription="Vagabond's Pub"
                         android:src="@drawable/ic_bar"
                         app:tint="@android:color/white" />
 
@@ -328,17 +352,103 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Bar"
+                        android:text="Vagabond's Pub"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Meet Contacts"
+                        android:text="Meet contacts"
                         android:textColor="@android:color/white"
-                        android:textSize="10sp" />
+                        android:textSize="9sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Savings and Loan -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/bankCard"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_bank"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="Savings and Loan"
+                        android:src="@drawable/ic_bank"
+                        app:tint="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Savings and Loan"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Banking services"
+                        android:textColor="@android:color/white"
+                        android:textSize="9sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Pick n' Save -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/picknsaveCard"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_picknsave"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="Pick n' Save"
+                        android:src="@drawable/ic_store"
+                        app:tint="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Pick n' Save"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Grocery store"
+                        android:textColor="@android:color/white"
+                        android:textSize="9sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -373,15 +483,58 @@
                         android:layout_marginTop="4dp"
                         android:text="Info Booth"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Special Items"
+                        android:text="Check stats"
                         android:textColor="@android:color/white"
-                        android:textSize="10sp" />
+                        android:textSize="9sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Credits -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/creditsCard"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_infobooth"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="Credits"
+                        android:src="@drawable/ic_info"
+                        app:tint="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Credits"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View game credits"
+                        android:textColor="@android:color/white"
+                        android:textSize="9sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -416,58 +569,15 @@
                         android:layout_marginTop="4dp"
                         android:text="Alleyway"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Explore Dark Places"
+                        android:text="Explore dark place"
                         android:textColor="@android:color/white"
-                        android:textSize="10sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Pick n Save -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/picknsaveCard"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/gradient_picknsave"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="Pick n Save"
-                        android:src="@drawable/ic_store"
-                        app:tint="@android:color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Pick n Save"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Gang Management"
-                        android:textColor="@android:color/white"
-                        android:textSize="10sp" />
+                        android:textSize="9sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

@@ -341,6 +341,24 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun updateGameState(newState: GameState) {
+        _gameState.value = newState
+        saveGameState()
+    }
+
+    fun incrementSteps() {
+        val gameState = _gameState.value ?: return
+        gameState.steps++
+        
+        // Check if day ends
+        if (gameState.steps >= gameState.maxSteps) {
+            gameState.advanceDay()
+            _gameMessage.value = "A new day begins! Day ${gameState.day}"
+        }
+        
+        saveGameState()
+    }
+
     fun wander(): String {
         val gameState = _gameState.value ?: return "Error: No game state"
 

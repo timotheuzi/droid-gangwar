@@ -104,6 +104,12 @@ class CityFragment : Fragment() {
                 gameViewModel.navigateToScreen("picknsave")
             }
 
+            // Credits - Game information
+            creditsCard.setOnClickListener {
+                animateCardClick(it)
+                showCreditsDialog()
+            }
+
             // Wander the streets
             wanderButton.setOnClickListener {
                 val result = gameViewModel.wander()
@@ -118,12 +124,30 @@ class CityFragment : Fragment() {
         }
     }
 
+    private fun showCreditsDialog() {
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Game Credits")
+            .setMessage("Droid Gangwar - A mobile adaptation of the classic Gang War MUD game.\n\n" +
+                    "Original Game: Gang War MUD by Timothy Zieman\n" +
+                    "Android Adaptation: Built with Android Studio\n" +
+                    "\nSpecial Thanks:\n" +
+                    "• Original Gang War community\n" +
+                    "• Android development team\n" +
+                    "• All beta testers\n\n" +
+                    "Version 1.0\n" +
+                    "Built with ❤️ for gang warfare enthusiasts")
+            .setPositiveButton("Back to City") { _, _ ->
+                // Just close the dialog
+            }
+            .setCancelable(false)
+            .show()
+    }
+
     private fun showScreenForLocation(screen: String) {
         when (screen) {
             "city" -> showCityScreen()
             else -> {
                 // For other screens, the navigation is handled by MainActivity
-
             }
         }
     }
@@ -140,40 +164,9 @@ class CityFragment : Fragment() {
             infoboothCard.visibility = View.VISIBLE
             alleywayCard.visibility = View.VISIBLE
             picknsaveCard.visibility = View.VISIBLE
+            creditsCard.visibility = View.VISIBLE
             wanderButton.visibility = View.VISIBLE
         }
-    }
-
-    private fun showCrackhouseScreen() {
-        showLocationDialog("Crackhouse", "Welcome to the Crackhouse!\n\nHere you can buy and sell drugs.")
-    }
-
-    private fun showGunshackScreen() {
-        showLocationDialog("Gun Shack", "Welcome to the Gun Shack!\n\nHere you can buy weapons and ammo.")
-    }
-
-    private fun showBankScreen() {
-        showLocationDialog("Bank", "Welcome to the Bank!\n\nHere you can manage your money.")
-    }
-
-    private fun showBarScreen() {
-        showLocationDialog("Bar", "Welcome to the Bar!\n\nHere you can meet contacts and get information.")
-    }
-
-    private fun showInfoboothScreen() {
-        showLocationDialog("Info Booth", "Welcome to the Info Booth!\n\nHere you can buy special items.")
-    }
-
-    private fun showAlleywayScreen() {
-        showLocationDialog("Alleyway", "Welcome to the Alleyway!\n\nDangerous place for exploration and combat.")
-    }
-
-    private fun showPicknsaveScreen() {
-        showLocationDialog("Pick n Save", "Welcome to Pick n Save!\n\nHere you can manage your gang.")
-    }
-
-    private fun showFinalBattleScreen() {
-        showLocationDialog("Final Battle", "Time for the FINAL BATTLE!\n\nDestroy the Squidies!")
     }
 
     private fun showLocationDialog(title: String, message: String) {
