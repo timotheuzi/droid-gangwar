@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_start_game">
+
+    <fragment
+        android:id="@+id/nav_start_game"
+        android:name="com.example.droidgangwar.ui.StartGameFragment"
+        android:label="Start Game"
+        tools:layout="@layout/fragment_start_game">
+        <action
+            android:id="@+id/action_startGameFragment_to_cityFragment"
+            app:destination="@id/nav_city" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_city"
+        android:name="com.example.droidgangwar.ui.CityFragment"
+        android:label="City"
+        tools:layout="@layout/fragment_city" />
+
+    <fragment
+        android:id="@+id/nav_crackhouse"
+        android:name="com.example.droidgangwar.ui.CrackhouseFragment"
+        android:label="Crackhouse"
+        tools:layout="@layout/fragment_crackhouse" />
+
+    <fragment
+        android:id="@+id/nav_gunshack"
+        android:name="com.example.droidgangwar.ui.GunShackFragment"
+        android:label="Gun Shack"
+        tools:layout="@layout/fragment_gunshack" />
+
+    <fragment
+        android:id="@+id/nav_bank"
+        android:name="com.example.droidgangwar.ui.BankFragment"
+        android:label="Bank"
+        tools:layout="@layout/fragment_bank" />
+
+    <fragment
+        android:id="@+id/nav_bar"
+        android:name="com.example.droidgangwar.ui.BarFragment"
+        android:label="Bar"
+        tools:layout="@layout/fragment_bar" />
+
+    <fragment
+        android:id="@+id/nav_infobooth"
+        android:name="com.example.droidgangwar.ui.InfoBoothFragment"
+        android:label="Info Booth"
+        tools:layout="@layout/fragment_infobooth" />
+
+    <fragment
+        android:id="@+id/nav_alleyway"
+        android:name="com.example.droidgangwar.ui.AlleywayFragment"
+        android:label="Alleyway"
+        tools:layout="@layout/fragment_alleyway" />
+
+    <fragment
+        android:id="@+id/nav_picknsave"
+        android:name="com.example.droidgangwar.ui.PickNSaveFragment"
+        android:label="Pick n Save"
+        tools:layout="@layout/fragment_picknsave" />
+
+    <fragment
+        android:id="@+id/nav_stats"
+        android:name="com.example.droidgangwar.ui.InfoBoothFragment"
+        android:label="Stats"
+        tools:layout="@layout/fragment_infobooth" />
+
+    <fragment
+        android:id="@+id/nav_final_battle"
+        android:name="com.example.droidgangwar.ui.MudFightFragment"
+        android:label="Final Battle"
+        tools:layout="@layout/fragment_mud_fight" />
+
+    <fragment
+        android:id="@+id/nav_game_over"
+        android:name="com.example.droidgangwar.ui.CityFragment"
+        android:label="Game Over" />
+
+    <fragment
+        android:id="@+id/nav_mud_fight"
+        android:name="com.example.droidgangwar.ui.MudFightFragment"
+        android:label="Mud Fight"
+        tools:layout="@layout/fragment_mud_fight" />
+

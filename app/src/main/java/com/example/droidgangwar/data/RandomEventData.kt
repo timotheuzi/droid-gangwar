@@ -124,20 +124,25 @@ object RandomEventData {
             )
         )
     }
-    
     fun generateRandomEvent(gameState: com.example.droidgangwar.model.GameState): RandomEvent {
         val random = Random(System.currentTimeMillis())
-        
+
         // Event probabilities based on gangwar_ref source, increased fight frequency
         val eventTypes = when {
-            random.nextFloat() < 0.08f -> EventType.BABY_MOMMA_INCIDENT // 8% chance
-            random.nextFloat() < 0.15f -> EventType.POLICE_CHASE // 15% chance (increased for more fights)
-            random.nextFloat() < 0.30f -> EventType.GANG_FIGHT // 15% chance (increased for more mud fights)
-            random.nextFloat() < 0.35f -> EventType.SQUIDIE_HIT_SQUAD // 5% chance (increased for more fights)
-            random.nextFloat() < 0.45f -> EventType.NPC_ENCOUNTER // 10% chance
-            else -> EventType.TREASURE_FIND // Remaining 55% chance for peaceful events
+            random.nextFloat() < 0.05f -> EventType.BABY_MOMMA_INCIDENT // 5% chance
+            random.nextFloat() < 0.10f -> EventType.POLICE_CHASE // 5% chance
+            random.nextFloat() < 0.15f -> EventType.GANG_FIGHT // 5% chance
+            random.nextFloat() < 0.20f -> EventType.SQUIDIE_HIT_SQUAD // 5% chance
+            random.nextFloat() < 0.30f -> EventType.STREET_THUG_FIGHT // 10% chance
+            random.nextFloat() < 0.40f -> EventType.DEALER_FIGHT // 10% chance
+            random.nextFloat() < 0.50f -> EventType.BOUNCER_FIGHT // 10% chance
+            random.nextFloat() < 0.60f -> EventType.HOMELESS_FIGHT // 10% chance
+            random.nextFloat() < 0.70f -> EventType.BUSINESSMAN_FIGHT // 10% chance
+            random.nextFloat() < 0.80f -> EventType.STREET_PUNK_FIGHT // 10% chance
+            random.nextFloat() < 0.85f -> EventType.NPC_ENCOUNTER // 5% chance
+            else -> EventType.TREASURE_FIND // Remaining 15% chance for peaceful events
         }
-        
+
         return when (eventTypes) {
             EventType.BABY_MOMMA_INCIDENT -> RandomEvent(
                 id = "baby_momma_${System.currentTimeMillis()}",
@@ -149,7 +154,7 @@ object RandomEventData {
                     "damage" to if (random.nextBoolean()) 10 else 0 // Sometimes take damage
                 )
             )
-            
+
             EventType.POLICE_CHASE -> RandomEvent(
                 id = "police_${System.currentTimeMillis()}",
                 title = "Police Chase",
@@ -162,7 +167,7 @@ object RandomEventData {
                     "has_id" to (gameState.flags.hasId == false) // Only if you don't have fake ID
                 )
             )
-            
+
             EventType.GANG_FIGHT -> RandomEvent(
                 id = "gang_${System.currentTimeMillis()}",
                 title = "Gang Fight",
@@ -173,7 +178,7 @@ object RandomEventData {
                     "members" to 1 // Chance to gain a member
                 )
             )
-            
+
             EventType.SQUIDIE_HIT_SQUAD -> RandomEvent(
                 id = "squidie_${System.currentTimeMillis()}",
                 title = "Squidie Hit Squad",
@@ -187,7 +192,67 @@ object RandomEventData {
                     "members" to (gameState.members >= 3) // Only when you have gang presence
                 )
             )
-            
+
+            EventType.STREET_THUG_FIGHT -> RandomEvent(
+                id = "thug_${System.currentTimeMillis()}",
+                title = "Street Thug Fight",
+                description = "A street thug demands protection money! 2 armed thugs attack you!",
+                type = EventType.STREET_THUG_FIGHT,
+                effects = mapOf(
+                    "damage" to 15
+                )
+            )
+
+            EventType.DEALER_FIGHT -> RandomEvent(
+                id = "dealer_${System.currentTimeMillis()}",
+                title = "Drug Dealer Confrontation",
+                description = "A rival drug dealer spots you cutting into their territory! A dealer and 2 bodyguards confront you!",
+                type = EventType.DEALER_FIGHT,
+                effects = mapOf(
+                    "damage" to 18
+                )
+            )
+
+            EventType.BOUNCER_FIGHT -> RandomEvent(
+                id = "bouncer_${System.currentTimeMillis()}",
+                title = "Bar Bouncer Fight",
+                description = "The bouncer at the club doesn't like your attitude! A massive bouncer and 3 friends jump you!",
+                type = EventType.BOUNCER_FIGHT,
+                effects = mapOf(
+                    "damage" to 25
+                )
+            )
+
+            EventType.HOMELESS_FIGHT -> RandomEvent(
+                id = "homeless_${System.currentTimeMillis()}",
+                title = "Crazy Homeless Fight",
+                description = "A crazy homeless guy with a broken bottle goes berserk! He lunges at you wildly!",
+                type = EventType.HOMELESS_FIGHT,
+                effects = mapOf(
+                    "damage" to 8
+                )
+            )
+
+            EventType.BUSINESSMAN_FIGHT -> RandomEvent(
+                id = "businessman_${System.currentTimeMillis()}",
+                title = "Businessman Assault",
+                description = "A businessman mistakes you for a mugger and attacks first! He pulls out a concealed weapon!",
+                type = EventType.BUSINESSMAN_FIGHT,
+                effects = mapOf(
+                    "damage" to 12
+                )
+            )
+
+            EventType.STREET_PUNK_FIGHT -> RandomEvent(
+                id = "punk_${System.currentTimeMillis()}",
+                title = "Street Punk Fight",
+                description = "Some punk kids think they can take your wallet! 4 street punks surround you with makeshift weapons!",
+                type = EventType.STREET_PUNK_FIGHT,
+                effects = mapOf(
+                    "damage" to 12
+                )
+            )
+
             EventType.NPC_ENCOUNTER -> RandomEvent(
                 id = "npc_${System.currentTimeMillis()}",
                 title = "NPC Encounter",
@@ -198,7 +263,7 @@ object RandomEventData {
                     "health" to if (random.nextBoolean()) 10 else 0 // Heal sometimes
                 )
             )
-            
+
             EventType.TREASURE_FIND -> RandomEvent(
                 id = "treasure_${System.currentTimeMillis()}",
                 title = "Treasure Found",
@@ -209,7 +274,7 @@ object RandomEventData {
                     "health" to if (random.nextFloat() < 0.3f) 15 else 0 // 30% chance to heal
                 )
             )
-            
+
             EventType.HEALTH_REST -> RandomEvent(
                 id = "health_${System.currentTimeMillis()}",
                 title = "Safe Resting Spot",
@@ -219,7 +284,7 @@ object RandomEventData {
                     "health" to 20
                 )
             )
-            
+
             EventType.MONEY_FIND -> RandomEvent(
                 id = "money_${System.currentTimeMillis()}",
                 title = "Money Discovery",
@@ -229,7 +294,7 @@ object RandomEventData {
                     "money" to random.nextInt(100, 400)
                 )
             )
-            
+
             EventType.DRUG_FIND -> RandomEvent(
                 id = "drug_${System.currentTimeMillis()}",
                 title = "Drug Stash",
@@ -239,7 +304,7 @@ object RandomEventData {
                     "drugs" to random.nextInt(1, 3)
                 )
             )
-            
+
             EventType.AMMO_FIND -> RandomEvent(
                 id = "ammo_${System.currentTimeMillis()}",
                 title = "Ammo Cache",
@@ -249,7 +314,7 @@ object RandomEventData {
                     "bullets" to random.nextInt(10, 30)
                 )
             )
-            
+
             EventType.WEAPON_FIND -> RandomEvent(
                 id = "weapon_${System.currentTimeMillis()}",
                 title = "Weapon Discovery",
@@ -259,7 +324,7 @@ object RandomEventData {
                     "weapons" to 1
                 )
             )
-            
+
             else -> RandomEvent(
                 id = "generic_${System.currentTimeMillis()}",
                 title = "Random Encounter",

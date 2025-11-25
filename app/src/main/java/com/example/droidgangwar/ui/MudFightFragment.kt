@@ -37,16 +37,20 @@ class MudFightFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Get combat parameters from arguments
-        arguments?.let { args ->
-            enemyHealth = args.getDouble("enemy_health", 30.0)
-            enemyCount = args.getInt("enemy_count", 1)
-            enemyType = args.getString("enemy_type", "Enemy")
-            combatId = args.getString("combat_id", "combat_${System.currentTimeMillis()}")
-
-            // Initialize fight log
-            val initialLog = args.getStringArrayList("fight_log") ?: arrayListOf("Combat begins!")
-            fightLog.addAll(initialLog)
+        // Get combat parameters from ViewModel
+        gameViewModel.currentCombatData?.let { combatData ->
+            enemyHealth = combatData.enemyHealth
+            enemyCount = combatData.enemyCount
+            enemyType = combatData.enemyType
+            combatId = combatData.combatId
+            fightLog.add(combatData.initialMessage)
+        } ?: run {
+            // Fallback if no combat data available
+            enemyHealth = 30.0
+            enemyCount = 1
+            enemyType = "Enemy"
+            combatId = "combat_${System.currentTimeMillis()}"
+            fightLog.add("Combat begins!")
         }
 
         setupUI()

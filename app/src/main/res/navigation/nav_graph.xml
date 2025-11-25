@@ -3,7 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nav_city">
+    app:startDestination="@id/nav_start_game">
+
+    <fragment
+        android:id="@+id/nav_start_game"
+        android:name="com.example.droidgangwar.ui.StartGameFragment"
+        android:label="Start Game"
+        tools:layout="@layout/fragment_start_game">
+        <argument
+            android:name="isRestart"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_restart_game"
+        android:name="com.example.droidgangwar.ui.StartGameFragment"
+        android:label="Restart Game"
+        tools:layout="@layout/fragment_start_game">
+        <argument
+            android:name="isRestart"
+            android:defaultValue="true"
+            app:argType="boolean" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_city"

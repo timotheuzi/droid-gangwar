@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class AlleywayRoom(
     @SerializedName("room_id")
     val roomId: String,
-    
+
     val title: String,
     val description: String,
     val exits: Map<String, String>, // Direction to room ID
@@ -35,6 +35,12 @@ enum class EventType {
     POLICE_CHASE,
     GANG_FIGHT,
     SQUIDIE_HIT_SQUAD,
+    STREET_THUG_FIGHT,
+    DEALER_FIGHT,
+    BOUNCER_FIGHT,
+    HOMELESS_FIGHT,
+    BUSINESSMAN_FIGHT,
+    STREET_PUNK_FIGHT,
     NPC_ENCOUNTER,
     TREASURE_FIND,
     HEALTH_REST,
@@ -42,5 +48,4 @@ enum class EventType {
     DRUG_FIND,
     AMMO_FIND,
     WEAPON_FIND
-
 }

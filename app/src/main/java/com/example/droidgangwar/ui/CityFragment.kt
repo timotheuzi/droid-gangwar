@@ -45,11 +45,13 @@ class CityFragment : Fragment() {
 
     private fun updateUI(gameState: com.example.droidgangwar.model.GameState) {
         binding.apply {
-            // Update status display
-            moneyText.text = "$${gameState.money}"
+            // Update status display with player names
+            val playerNameText = gameState.playerName.ifEmpty { "Unknown" }
+            val gangNameText = gameState.gangName.ifEmpty { "No Gang" }
+            playerNameTextView.text = playerNameText
+            gangNameTextView.text = gangNameText
             healthText.text = "${gameState.health}/${gameState.maxHealth}"
             dayText.text = "Day ${gameState.day}"
-            gangSizeText.text = "${gameState.members} members"
 
             // Update progress bars
             healthProgress.progress = (gameState.health.toFloat() / gameState.maxHealth * 100).toInt()
@@ -127,7 +129,7 @@ class CityFragment : Fragment() {
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
             .setTitle("Game Credits")
             .setMessage("Droid Gangwar - A mobile adaptation of the classic Gang War MUD game.\n\n" +
-                    "Original Game: Gang War MUD by Timothy Zieman\n" +
+                    "Original Game: Gang War MUD by timotheuzi@hotmail.com\n" +
                     "Android Adaptation: Built with Android Studio\n" +
                     "\nSpecial Thanks:\n" +
                     "• Original Gang War community\n" +
@@ -248,12 +250,11 @@ class CityFragment : Fragment() {
         val initialLog = arrayListOf(initialMessage)
 
         // Navigate to MudFightFragment with combat parameters via ViewModel
-        gameViewModel.startMudFight(enemyHealth, enemyCount, enemyType, combatId, initialLog)
+        gameViewModel.startMudFight(enemyHealth, enemyCount, enemyType, combatId)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-
-}
+    }
 }

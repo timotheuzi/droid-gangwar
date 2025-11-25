@@ -43,7 +43,7 @@ class GunShackFragment : Fragment() {
 
     private fun setupGunShackActions() {
         binding.apply {
-            // Simplified weapons purchase buttons
+            // Weapon purchase buttons
             pistolButton.setOnClickListener {
                 purchaseWeapon("pistol", 1200)
             }
@@ -77,6 +77,15 @@ class GunShackFragment : Fragment() {
                 purchaseWeapon("heavy_vest", 35000)
             }
 
+            // Switch purchase button
+            switchButton.setOnClickListener {
+                if (hasPistolOrGhostGun()) {
+                    purchaseSwitch()
+                } else {
+                    showMessage("You need a pistol or ghost gun first!")
+                }
+            }
+
             // Pistol upgrade buttons
             pistolDamageUpgradeButton.setOnClickListener {
                 if (hasPistol()) {
@@ -102,26 +111,6 @@ class GunShackFragment : Fragment() {
                 }
             }
 
-            pistolUpgradeToggle.setOnClickListener {
-                val gameState = gameViewModel.gameState.value ?: return@setOnClickListener
-                if (gameState.pistolUpgraded) {
-                    gameState.pistolUpgraded = false
-                    pistolUpgradeToggle.text = "Enable Pistol Upgrade"
-                    showMessage("Pistol upgrade disabled!")
-                } else {
-                    if (gameState.pistolUpgradeType != "none") {
-                        gameState.pistolUpgraded = true
-                        pistolUpgradeToggle.text = "Disable Pistol Upgrade"
-                        showMessage("Pistol upgrade enabled!")
-                    } else {
-                        showMessage("Purchase an upgrade first!")
-                    }
-                }
-                gameViewModel.saveGameState()
-
-                updateUI(gameState)
-            }
-
             backButton.setOnClickListener {
                 gameViewModel.navigateToScreen("city")
             }
@@ -133,6 +122,18 @@ class GunShackFragment : Fragment() {
         
         if (gameState.money >= price) {
             gameState.money -= price
+            
+            when (weaponType) {
+                "pistol" -> gameState.weapons.pistols += 1
+                "ghost_gun" -> gameState.weapons.ghostGuns += 1
+                "bullets" -> gameState.weapons.bullets += 50
+                "exploding_bullets" -> gameState.weapons.bullets += 50
+                "grenade" -> gameState.weapons.grenades += 1
+                "light_vest" -> gameState.weapons.vest = 5
+                "medium_vest" -> gameState.weapons.vest = 10
+                "heavy_vest" -> gameState.weapons.vest = 15
+            }
+            
             gameViewModel.saveGameState()
             updateUI(gameState)
             showMessage("Purchased $weaponType for $$price!")
@@ -141,7 +142,31 @@ class GunShackFragment : Fragment() {
         }
     }
 
+    private fun purchaseSwitch() {
+        val gameState = gameViewModel.gameState.value ?: return
+        val switchPrice = 3000
+        
+        if (gameState.money >= switchPrice) {
+            if (!gameState.flags.hasSwitch) {
+                gameState.money -= switchPrice
+                gameState.flags.hasSwitch = true
+                gameViewModel.saveGameState()
+                updateUI(gameState)
+                showMessage("Purchased switch for $$switchPrice! Now you get 3 shots per turn with pistol/ghost gun!")
+            } else {
+                showMessage("You already have a switch installed!")
+            }
+        } else {
+            showMessage("Not enough money! Need $$switchPrice for a switch")
+        }
+    }
+
     private fun hasPistol(): Boolean {
+        val gameState = gameViewModel.gameState.value ?: return false
+        return gameState.weapons.pistols > 0
+    }
+
+    private fun hasPistolOrGhostGun(): Boolean {
         val gameState = gameViewModel.gameState.value ?: return false
         return gameState.weapons.pistols > 0 || gameState.weapons.ghostGuns > 0
     }
@@ -187,8 +212,4 @@ class GunShackFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-lateinit var pistolDamageUpgradeButton: android.widget.Button
-lateinit var pistolAccuracyUpgradeButton: android.widget.Button
-lateinit var pistolMagazineUpgradeButton: android.widget.Button
-lateinit var pistolUpgradeToggle: android.widget.ToggleButton
 }

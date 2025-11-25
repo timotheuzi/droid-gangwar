@@ -1,8 +1,6 @@
 package com.example.droidgangwar.ui
 
 import android.app.Application
-import java.lang.Math.*
-
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.droidgangwar.data.GameRepository
 import com.example.droidgangwar.model.*
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class GameViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -27,6 +26,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _currentScreen = MutableLiveData<String>("main_menu")
     val currentScreen: LiveData<String> = _currentScreen
 
+    // Store current combat data for fragments to access
+    var currentCombatData: CombatData? = null
+
     init {
         loadGameState()
     }
@@ -34,10 +36,12 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun loadGameState() {
         viewModelScope.launch {
             val savedState = repository.loadGameState()
-            if (savedState != null) {
-                _gameState.value = savedState
+            _gameState.value = savedState ?: GameState()
+            // Set initial screen
+            if (_gameState.value?.playerName.isNullOrEmpty()) {
+                _currentScreen.value = "start_game"
             } else {
-                _gameState.value = GameState()
+                _currentScreen.value = _gameState.value?.currentLocation ?: "city"
             }
         }
     }
@@ -60,6 +64,15 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         saveGameState()
     }
 
+    fun restartGame() {
+        val currentPlayerName = _gameState.value?.playerName ?: ""
+        val currentGangName = _gameState.value?.gangName ?: ""
+        _gameState.value = GameState(playerName = currentPlayerName, gangName = currentGangName)
+        _currentScreen.value = "start_game"
+        saveGameState()
+        _gameMessage.value = "Game restarted! Enter your name and gang name."
+    }
+
     fun navigateToScreen(screen: String) {
         _currentScreen.value = screen
         _gameState.value?.currentLocation = screen
@@ -73,10 +86,32 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         saveGameState()
     }
 
-    fun startMudFight(enemyHealth: Int, enemyCount: Int, enemyType: String, combatId: String, initialLog: ArrayList<String>) {
-        // Navigate to mud fight and fragments will handle parameters via arguments
-        _currentScreen.value = "mud_fight_${combatId}_${enemyHealth}_${enemyCount}_${enemyType}"
-        saveGameState()
+    fun startMudFight(enemyHealth: Int, enemyCount: Int, enemyType: String, combatId: String) {
+        // Store combat parameters temporarily
+        _combatResult.value = CombatResult().apply {
+            this.enemiesKilled = enemyCount
+            this.fightLog.add("Combat starting: $enemyType ($enemyCount enemies)")
+        }
+        
+        // Store combat data in a way the fragment can access it
+        currentCombatData = CombatData(
+            enemyHealth = enemyHealth.toDouble(),
+            enemyCount = enemyCount,
+            enemyType = enemyType,
+            combatId = combatId,
+            initialMessage = "You engage in combat with $enemyType!"
+        )
+        
+        // Navigate to mud fight screen with proper navigation
+        _currentScreen.value = "mud_fight"
+        
+        // Save state and trigger navigation
+        _gameState.value?.let { gameState ->
+            saveGameState()
+        }
+        
+        // Trigger a message to show navigation is happening
+        _gameMessage.value = "Starting combat with $enemyType!"
     }
 
     fun buyWeapon(weaponType: String, quantity: Int = 1): Boolean {
@@ -111,9 +146,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             "barbed_wire_bat" -> gameState.weapons.barbedWireBat += quantity
             "missile_launcher" -> gameState.weapons.missileLauncher += quantity
             "missile" -> gameState.weapons.missiles += quantity
-            "vest_light" -> gameState.weapons.vest += 5
-            "vest_medium" -> gameState.weapons.vest += 10
-            "vest_heavy" -> gameState.weapons.vest += 15
+            "vest_light" -> gameState.weapons.vest = 5 // Set to specific defense value
+            "vest_medium" -> gameState.weapons.vest = 10 // Set to specific defense value
+            "vest_heavy" -> gameState.weapons.vest = 15 // Set to specific defense value
         }
 
         _gameMessage.value = "Purchased $quantity $weaponType(s) for $${totalCost.formatWithCommas()}!"
@@ -173,7 +208,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                     _gameMessage.value = "Sold $quantity kilo(s) of $drugType for $${revenue.formatWithCommas()}!"
 
                     // Chance to recruit new member from big drug sales
-                    if (revenue >= 5000 && Math.random() < 0.25) {
+                    if (revenue >= 5000 && Random.nextFloat() < 0.25f) {
                         gameState.members++
                         _gameMessage.value += "\nWord spread! A new recruit joined your gang!"
                     }
@@ -192,10 +227,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun performCombat(weapon: String, enemyType: String, enemyCount: Int): Boolean {
         val gameState = _gameState.value ?: return false
 
-        val enemyHealth = when (enemyType) {
-            "Police Officers" -> enemyCount * 10
-            "Squidie Hit Squad" -> enemyCount * 25
-            else -> enemyCount * 15
+        val enemyHealth: Double = when (enemyType) {
+            "Police Officers" -> enemyCount * 10.0
+            "Squidie Hit Squad" -> enemyCount * 25.0
+            else -> enemyCount * 15.0
         }
 
         val result = CombatSystem.calculateCombat(gameState, weapon, enemyType, enemyCount, enemyHealth)
@@ -219,9 +254,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         if (result.success) {
             if (result.healthChange != 0) {
                 if (result.healthChange > 0) {
-                    gameState.heal(result.healthChange.toDouble())
+                    gameState.heal(result.healthChange)
                 } else {
-                    gameState.takeDamage(-result.healthChange)
+                    gameState.takeDamage(-result.healthChange.toInt())
                 }
             }
             // Update drug count if successful
@@ -248,8 +283,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         return when (action) {
             "quick_service" -> {
                 if (gameState.spendMoney(200)) {
-
-                    gameState.heal(healthGain.toDouble())
+                    val healthGain = (5..15).random()
+                    gameState.heal(healthGain)
                     _gameMessage.value = "You enjoyed a quick service and gained $healthGain health!"
                     saveGameState()
                     true
@@ -408,9 +443,18 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         saveGameState()
         return event
     }
-
-    private fun Int.formatWithCommas(): String {
-        return String.format("%,d", this)
-    }
-
 }
+
+// Extension function for formatting numbers with commas
+fun Int.formatWithCommas(): String {
+    return String.format("%,d", this)
+}
+
+// Data class for passing combat information between components
+data class CombatData(
+    val enemyHealth: Double,
+    val enemyCount: Int,
+    val enemyType: String,
+    val combatId: String,
+    val initialMessage: String
+)

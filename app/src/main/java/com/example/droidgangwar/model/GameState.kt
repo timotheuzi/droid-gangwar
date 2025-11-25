@@ -43,7 +43,7 @@ data class GameState(
     var drugs: Drugs = Drugs(),
 
     // Pistol upgrade properties
-    var pistolUpgradeType: String = "",
+    var pistolUpgradeType: String = "none",
     var pistolUpgraded: Boolean = false,
     var pistolUpgradeToggle: Boolean = false
 ) {
@@ -109,7 +109,10 @@ data class Flags(
     var hasId: Boolean = false,
 
     @SerializedName("has_info")
-    var hasInfo: Boolean = false
+    var hasInfo: Boolean = false,
+
+    @SerializedName("has_switch")
+    var hasSwitch: Boolean = false
 )
 
 data class Weapons(
