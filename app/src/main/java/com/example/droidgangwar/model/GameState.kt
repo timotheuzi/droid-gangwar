@@ -1,6 +1,7 @@
 package com.example.droidgangwar.model
 
 import com.google.gson.annotations.SerializedName
+import kotlin.random.Random
 
 data class GameState(
     @SerializedName("player_name")
@@ -54,7 +55,7 @@ data class GameState(
         currentScore = moneyScore + survivalScore
     }
 
-    fun isGameOver(): Boolean = lives <= 0
+    fun isGameOver(): Boolean = lives <= 0 || health <= 0
 
     fun canAfford(amount: Int): Boolean = money >= amount
 
@@ -72,11 +73,11 @@ data class GameState(
     }
 
     fun takeDamage(amount: Int) {
-        damage += amount
-        if (damage >= 10) {
-            lives--
-            damage = 0
-            health = 30 // Reset health
+        // In classic gangwar, HP is life.
+        health -= amount
+        if (health <= 0) {
+            // Handle death logic here or in the game loop
+            // For now, ensure health reflects the damage
         }
     }
 
@@ -98,8 +99,10 @@ data class GameState(
                 "pixie_dust" -> 3000
                 else -> 500
             }
-            val variation = (Math.random() * 0.4 - 0.2) // -20% to +20%
-            drugPrices[drug] = (basePrice * (1 + variation)).toInt()
+            // Volatility based on day
+            val volatility = 0.1 + (day * 0.01) // Prices get more volatile as days pass
+            val variation = (Random.nextDouble() * (volatility * 2)) - volatility
+            drugPrices[drug] = (basePrice * (1 + variation)).toInt().coerceAtLeast(10)
         }
     }
 }
@@ -118,11 +121,16 @@ data class Flags(
 data class Weapons(
     var pistols: Int = 1,
     var bullets: Int = 10,
+    var explodingBullets: Int = 0, // Special ammo
+    var useExplodingBullets: Boolean = false, // User preference
     var uzis: Int = 0,
     var grenades: Int = 0,
 
     @SerializedName("barbed_wire_bat")
     var barbedWireBat: Int = 0,
+    
+    @SerializedName("brass_knuckles")
+    var brassKnuckles: Int = 0,
 
     @SerializedName("missile_launcher")
     var missileLauncher: Int = 0,
@@ -134,8 +142,8 @@ data class Weapons(
     @SerializedName("ghost_guns")
     var ghostGuns: Int = 0
 ) {
-    fun canFightWithPistol(): Boolean = pistols > 0 && bullets > 0
-    fun canFightWithUzi(): Boolean = uzis > 0 && bullets >= 3
+    fun canFightWithPistol(): Boolean = pistols > 0 && (bullets > 0 || explodingBullets > 0)
+    fun canFightWithUzi(): Boolean = uzis > 0 && (bullets >= 3 || explodingBullets >= 3)
     fun canFightWithGrenade(): Boolean = grenades > 0
     fun canFightWithMissile(): Boolean = missileLauncher > 0 && missiles > 0
 }

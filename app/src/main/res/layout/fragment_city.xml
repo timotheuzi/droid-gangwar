@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            app:cardElevation="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -27,33 +27,49 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/dayText"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Day 1"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_menu_stats"
+                        app:tint="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/dayText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Day 1"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Player"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp" />
+                            android:textAllCaps="true"
+                            android:textColor="#DDDDDD"
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/playerNameTextView"
@@ -65,18 +81,25 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="30dp"
+                        android:background="#33FFFFFF" />
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Gang"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp" />
+                            android:textAllCaps="true"
+                            android:textColor="#DDDDDD"
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/gangNameTextView"
@@ -88,18 +111,25 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="30dp"
+                        android:background="#33FFFFFF" />
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Health"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp" />
+                            android:textAllCaps="true"
+                            android:textColor="#DDDDDD"
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/healthText"
@@ -122,32 +152,36 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Health"
+                        android:text="HP"
+                        android:textStyle="bold"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp" />
+                        android:textSize="10sp" />
 
                     <ProgressBar
                         android:id="@+id/healthProgress"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="8dp"
+                        android:layout_height="6dp"
                         android:layout_marginBottom="8dp"
                         android:progress="30"
-                        android:progressTint="@android:color/holo_green_light" />
+                        android:progressDrawable="@drawable/progress_health"
+                        android:progressTint="@android:color/holo_red_light" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Day Progress"
+                        android:text="DAY PROGRESS"
+                        android:textStyle="bold"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp" />
+                        android:textSize="10sp" />
 
                     <ProgressBar
                         android:id="@+id/dayProgress"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="8dp"
+                        android:layout_height="6dp"
                         android:progress="0"
+                        android:progressDrawable="@drawable/progress_day"
                         android:progressTint="@android:color/holo_blue_light" />
                 </LinearLayout>
             </LinearLayout>
@@ -159,64 +193,66 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            app:cardElevation="6dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/gradient_status"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="12dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Current Street Prices:"
+                    android:text="Current Street Prices"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" 
+                    android:layout_marginBottom="4dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <GridLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Weed: $500 per kilo"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Crack: $800 per kilo"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cocaine: $1200 per kilo"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ice: $600 per kilo"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Percs: $300 per kilo"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pixie Dust: $400 per kilo"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:columnCount="2">
+                    
+                    <TextView
+                         android:id="@+id/priceWeed"
+                         android:layout_columnWeight="1"
+                         android:text="Weed: $500/kg"
+                         android:textColor="#DDDDDD"
+                         android:textSize="11sp" />
+                    <TextView
+                         android:id="@+id/priceIce"
+                         android:layout_columnWeight="1"
+                         android:text="Ice: $600/kg"
+                         android:textColor="#DDDDDD"
+                         android:textSize="11sp" />
+                    <TextView
+                         android:id="@+id/priceCrack"
+                         android:layout_columnWeight="1"
+                         android:text="Crack: $800/kg"
+                         android:textColor="#DDDDDD"
+                         android:textSize="11sp" />
+                    <TextView
+                         android:id="@+id/pricePercs"
+                         android:layout_columnWeight="1"
+                         android:text="Percs: $300/kg"
+                         android:textColor="#DDDDDD"
+                         android:textSize="11sp" />
+                    <TextView
+                         android:id="@+id/priceCoke"
+                         android:layout_columnWeight="1"
+                         android:text="Cocaine: $1200/kg"
+                         android:textColor="#DDDDDD"
+                         android:textSize="11sp" />
+                    <TextView
+                         android:id="@+id/pricePixie"
+                         android:layout_columnWeight="1"
+                         android:text="Pixie Dust: $400/kg"
+                         android:textColor="#DDDDDD"
+                         android:textSize="11sp" />
+                </GridLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -226,10 +262,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="Explore the City"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="EXPLORE THE CITY"
+            android:textColor="#444444"
+            android:textSize="14sp"
+            android:textStyle="bold" 
+            android:letterSpacing="0.1"/>
 
         <GridLayout
             android:layout_width="match_parent"
@@ -241,10 +278,10 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/crackhouseCard"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -256,8 +293,8 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:contentDescription="Big Johnny's Crack House"
                         android:src="@drawable/ic_crackhouse"
                         app:tint="@android:color/white" />
@@ -265,18 +302,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Big Johnny's Crack House"
+                        android:layout_marginTop="8dp"
+                        android:text="Crack House"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Buy and sell drugs"
-                        android:textColor="@android:color/white"
-                        android:textSize="9sp" />
+                        android:text="Buy/Sell Drugs"
+                        android:textColor="#EEEEEE"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -284,10 +321,10 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/gunshackCard"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -299,8 +336,8 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:contentDescription="The Boom Shack"
                         android:src="@drawable/ic_gun"
                         app:tint="@android:color/white" />
@@ -308,18 +345,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="The Boom Shack"
+                        android:layout_marginTop="8dp"
+                        android:text="Boom Shack"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Purchase weapons"
-                        android:textColor="@android:color/white"
-                        android:textSize="9sp" />
+                        android:text="Weapons &amp; Ammo"
+                        android:textColor="#EEEEEE"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -327,10 +364,10 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/barCard"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -342,8 +379,8 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:contentDescription="Vagabond's Pub"
                         android:src="@drawable/ic_bar"
                         app:tint="@android:color/white" />
@@ -351,18 +388,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         android:text="Vagabond's Pub"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Meet contacts"
-                        android:textColor="@android:color/white"
-                        android:textSize="9sp" />
+                        android:text="Info &amp; Contacts"
+                        android:textColor="#EEEEEE"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -370,10 +407,10 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/bankCard"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -385,8 +422,8 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:contentDescription="Savings and Loan"
                         android:src="@drawable/ic_bank"
                         app:tint="@android:color/white" />
@@ -394,18 +431,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Savings and Loan"
+                        android:layout_marginTop="8dp"
+                        android:text="City Bank"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Banking services"
-                        android:textColor="@android:color/white"
-                        android:textSize="9sp" />
+                        android:text="Deposits &amp; Loans"
+                        android:textColor="#EEEEEE"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -413,10 +450,10 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/picknsaveCard"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -428,8 +465,8 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:contentDescription="Pick n' Save"
                         android:src="@drawable/ic_store"
                         app:tint="@android:color/white" />
@@ -437,18 +474,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         android:text="Pick n' Save"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Grocery store"
-                        android:textColor="@android:color/white"
-                        android:textSize="9sp" />
+                        android:text="Gang Supplies"
+                        android:textColor="#EEEEEE"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -456,10 +493,10 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/infoboothCard"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -471,8 +508,8 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:contentDescription="Info Booth"
                         android:src="@drawable/ic_info"
                         app:tint="@android:color/white" />
@@ -480,61 +517,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         android:text="Info Booth"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Check stats"
-                        android:textColor="@android:color/white"
-                        android:textSize="9sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Credits -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/creditsCard"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/gradient_infobooth"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="Credits"
-                        android:src="@drawable/ic_info"
-                        app:tint="@android:color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Credits"
-                        android:textColor="@android:color/white"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="View game credits"
-                        android:textColor="@android:color/white"
-                        android:textSize="9sp" />
+                        android:text="Game Stats"
+                        android:textColor="#EEEEEE"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -542,10 +536,10 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/alleywayCard"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -557,8 +551,8 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:contentDescription="Alleyway"
                         android:src="@drawable/ic_alley"
                         app:tint="@android:color/white" />
@@ -566,33 +560,85 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Alleyway"
+                        android:layout_marginTop="8dp"
+                        android:text="Dark Alley"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Explore dark place"
+                        android:text="Dangerous!"
+                        android:textColor="#EEEEEE"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            
+             <!-- Credits -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/creditsCard"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_infobooth"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:contentDescription="Credits"
+                        android:src="@drawable/ic_menu_info"
+                        app:tint="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Credits"
                         android:textColor="@android:color/white"
-                        android:textSize="9sp" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="About Game"
+                        android:textColor="#EEEEEE"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <!-- Wander Button -->
-            <Button
-                android:id="@+id/wanderButton"
-                android:layout_width="0dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/wanderCard"
+                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_columnSpan="2"
-                android:layout_margin="8dp"
-                android:background="@drawable/gradient_wander"
-                android:text="Wander the Streets"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_margin="6dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="8dp">
+                
+                 <Button
+                    android:id="@+id/wanderButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_wander"
+                    android:text="WANDER THE STREETS"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
+           
         </GridLayout>
 
         <!-- Final Battle Button (Hidden until ready) -->

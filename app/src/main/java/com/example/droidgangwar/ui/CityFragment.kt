@@ -8,8 +8,13 @@ import android.widget.TextView
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.appcompat.app.AlertDialog
 import com.example.droidgangwar.R
 import com.example.droidgangwar.databinding.FragmentCityBinding
+import com.example.droidgangwar.data.RandomEventData
+import com.example.droidgangwar.model.EventType
+import com.example.droidgangwar.model.GameState
+import kotlin.random.Random
 
 class CityFragment : Fragment() {
 
@@ -43,7 +48,7 @@ class CityFragment : Fragment() {
         setupLocationButtons()
     }
 
-    private fun updateUI(gameState: com.example.droidgangwar.model.GameState) {
+    private fun updateUI(gameState: GameState) {
         binding.apply {
             // Update status display with player names
             val playerNameText = gameState.playerName.ifEmpty { "Unknown" }
@@ -59,6 +64,20 @@ class CityFragment : Fragment() {
 
             // Show final battle button if ready
             finalBattleButton.visibility = if (gameState.members >= 10) View.VISIBLE else View.GONE
+            
+            // Update Drug Prices on Main Screen
+            updateDrugPrices(gameState)
+        }
+    }
+
+    private fun updateDrugPrices(gameState: GameState) {
+        binding.apply {
+            priceWeed.text = "Weed: $${gameState.drugPrices["weed"] ?: 0}/kg"
+            priceIce.text = "Ice: $${gameState.drugPrices["ice"] ?: 0}/kg"
+            priceCrack.text = "Crack: $${gameState.drugPrices["crack"] ?: 0}/kg"
+            pricePercs.text = "Percs: $${gameState.drugPrices["percs"] ?: 0}/kg"
+            priceCoke.text = "Cocaine: $${gameState.drugPrices["coke"] ?: 0}/kg"
+            pricePixie.text = "Pixie Dust: $${gameState.drugPrices["pixie_dust"] ?: 0}/kg"
         }
     }
 
@@ -126,12 +145,19 @@ class CityFragment : Fragment() {
     }
 
     private fun showCreditsDialog() {
-        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext())
             .setTitle("Game Credits")
             .setMessage("Droid Gangwar - A mobile adaptation of the classic Gang War MUD game.\n\n" +
                     "Original Game: Gang War MUD by timotheuzi@hotmail.com\n" +
-                    "Android Adaptation: Built with Android Studio\n" +
-                    "\nSpecial Thanks:\n" +
+                    "Android Adaptation: Built with Android Studio\n\n" +
+                    "Created and Maintained by timotheuzi@hotmail.com\n\n" +
+                    "Public Address to Receive:\n" +
+                    "LTC ltc1qcx3xsrpxqm7q7gpkxhxhtaeqgdqpmq0jdrw7vh\n" +
+                    "SOL 4sAaizpXmFS4yedakv7mLN1Z2myGh2CWnes3YJBhF1Hb\n" +
+                    "XLM GCVYEJ7GC7LZZ2EBZL5DXWCLTZPTXX7YEUXLS36YGE6BA37R5BHRI2XG\n" +
+                    "BTC bc1qfv69rux98r7u3sr786j2qpsenmkskvkf58ynkk\n" +
+                    "ETH 0xD1A6b95958dE597c2D9478A3b4212adF0789BF81\n\n" +
+                    "Special Thanks:\n" +
                     "• Original Gang War community\n" +
                     "• Android development team\n" +
                     "• All beta testers\n\n" +
@@ -171,7 +197,7 @@ class CityFragment : Fragment() {
     }
 
     private fun showLocationDialog(title: String, message: String) {
-        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton("Back to City") { _, _ ->
@@ -197,7 +223,7 @@ class CityFragment : Fragment() {
     }
 
     private fun showWanderResult(result: String) {
-        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext())
             .setTitle("Street Exploration")
             .setMessage(result)
             .setPositiveButton("Continue", null)
@@ -207,24 +233,36 @@ class CityFragment : Fragment() {
     private fun performWanderExploration() {
         val gameState = gameViewModel.gameState.value ?: return
 
+        // Check if we should run a price fluctuation event
+        // 10% chance during wander to hear market rumors which forces an update without day change
+        // Or simply notify if prices changed recently? The prompt asked for notification on custom events.
+        
         // Generate random exploration event
-        val exploreEvent = com.example.droidgangwar.data.RandomEventData.generateWanderingEvent(gameState)
+        val exploreEvent = RandomEventData.generateRandomEvent(gameState)
 
         // Check if event meets requirements
-        if (com.example.droidgangwar.data.RandomEventData.hasMeetRequirements(exploreEvent, gameState)) {
+        if (RandomEventData.hasMeetRequirements(exploreEvent, gameState)) {
             // Apply event effects
-            com.example.droidgangwar.data.RandomEventData.applyEventEffects(exploreEvent, gameState)
+            RandomEventData.applyEventEffects(exploreEvent, gameState)
 
             // Handle combat events
             when (exploreEvent.type) {
-                com.example.droidgangwar.model.EventType.GANG_FIGHT -> {
+                EventType.GANG_FIGHT -> {
                     startMudFight("Gang Members", (2..6).random(), "Rival gang ambushes you while wandering!")
                 }
-                com.example.droidgangwar.model.EventType.POLICE_CHASE -> {
+                EventType.POLICE_CHASE -> {
                     startMudFight("Police Officers", (3..5).random(), "Police patrol spots you!")
                 }
-                com.example.droidgangwar.model.EventType.SQUIDIE_HIT_SQUAD -> {
+                EventType.SQUIDIE_HIT_SQUAD -> {
                     startMudFight("Squidie Hit Squad", (2..4).random(), "Squidie assassins track you down!")
+                }
+                EventType.NPC_ENCOUNTER -> {
+                     // Chance for combat with monster or weirdo
+                     if (Random.nextFloat() < 0.2f) {
+                          startMudFight("Sewer Monster", 1, "A Sewer Monster emerges from the drain!")
+                     } else {
+                          showWanderResult(exploreEvent.description)
+                     }
                 }
                 else -> {
                     // Regular event - show results
@@ -243,12 +281,12 @@ class CityFragment : Fragment() {
             "Police Officers" -> enemyCount * 12
             "Gang Members" -> enemyCount * 15
             "Squidie Hit Squad" -> enemyCount * 20
+            "Sewer Monster" -> 50 // Strong single enemy
             else -> enemyCount * 15
         }
 
         val combatId = "city_wander_combat_${System.currentTimeMillis()}"
-        val initialLog = arrayListOf(initialMessage)
-
+        
         // Navigate to MudFightFragment with combat parameters via ViewModel
         gameViewModel.startMudFight(enemyHealth, enemyCount, enemyType, combatId)
     }

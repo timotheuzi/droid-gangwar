@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import com.example.droidgangwar.R
+import com.example.droidgangwar.databinding.FragmentStartGameBinding
 
 class StartGameFragment : Fragment() {
 
-    private var _binding: com.example.droidgangwar.databinding.FragmentStartGameBinding? = null
+    private var _binding: FragmentStartGameBinding? = null
     private val binding get() = _binding!!
     private val gameViewModel: GameViewModel by activityViewModels()
 
@@ -20,7 +19,7 @@ class StartGameFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = com.example.droidgangwar.databinding.FragmentStartGameBinding.inflate(inflater, container, false)
+        _binding = FragmentStartGameBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -45,14 +44,9 @@ class StartGameFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // Update game state with user names
-            val currentGameState = gameViewModel.gameState.value ?: return@setOnClickListener
-            currentGameState.playerName = playerName
-            currentGameState.gangName = gangName
-            gameViewModel.updateGameState(currentGameState)
-
-            // Navigate to the city
-            findNavController().navigate(R.id.nav_city)
+            // Start a new game which updates state and sets screen to 'city'
+            gameViewModel.startNewGame(playerName, gangName)
+            // Navigation is handled by observing currentScreen in MainActivity
         }
     }
 

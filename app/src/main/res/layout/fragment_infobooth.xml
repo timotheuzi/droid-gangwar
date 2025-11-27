@@ -22,7 +22,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/infobooth_primary"
+                android:background="@drawable/gradient_infobooth"
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -75,7 +75,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:background="@color/card_background">
 
                 <TextView
                     android:id="@+id/healthText"
@@ -122,8 +123,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:background="@color/infobooth_primary"
+                android:background="@drawable/gradient_infobooth"
                 android:text="Detailed Stats"
+                android:textColor="@color/text_white"
+                android:textSize="16sp" />
+                
+            <Button
+                android:id="@+id/highScoresButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/gradient_status"
+                android:text="High Scores"
                 android:textColor="@color/text_white"
                 android:textSize="16sp" />
 
@@ -132,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:background="@color/money_good"
+                android:background="@drawable/gradient_bank"
                 android:text="Buy Special Items"
                 android:textColor="@color/text_white"
                 android:textSize="16sp" />
@@ -142,7 +153,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:background="@color/wander_primary"
+                android:background="@drawable/gradient_wander"
                 android:text="View Current Prices"
                 android:textColor="@color/text_white"
                 android:textSize="16sp" />
@@ -151,7 +162,7 @@
                 android:id="@+id/backButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/infobooth_secondary"
+                android:background="@drawable/gradient_alleyway"
                 android:text="Back to City"
                 android:textColor="@color/text_white"
                 android:textSize="16sp" />
