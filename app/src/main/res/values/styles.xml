@@ -12,6 +12,35 @@
         <item name="colorOnSecondary">@color/text_black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <!-- Material 3 Attributes -->
+        <item name="colorSurface">@color/card_background</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/city_background</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorError">@color/health_low</item>
+        <item name="colorOnError">@color/text_white</item>
+        <!-- Typography -->
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Card Styles -->
+    <style name="CardView.DroidGangwar" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardBackgroundColor">@color/card_background</item>
+    </style>
+
+    <!-- Button Styles -->
+    <style name="Button.DroidGangwar.Primary" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/text_white</item>
+        <item name="backgroundTint">@color/button_primary</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:paddingVertical">12dp</item>
+    </style>
+
+    <style name="Button.DroidGangwar.Action" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:paddingVertical">12dp</item>
     </style>
 </resources>

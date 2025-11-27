@@ -12,16 +12,19 @@ build:
 	@command -v java >/dev/null 2>&1 || { echo "ERROR: Java is not installed."; echo "Please install Java 17+ (OpenJDK 17 or higher)."; echo "On Ubuntu/Debian: sudo apt install openjdk-17-jdk"; echo "Then set: export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64"; exit 1; }
 	@java -version 2>&1 | grep -q "version \"1[789]\." || java -version 2>&1 | grep -q "version \"2[0-9]\." || { echo "ERROR: Java 17+ is required. Current version:"; java -version; exit 1; }
 	@echo "Java check passed. Building..."
+	@rm -rf bin/
 	@export JAVA_HOME=/home/bim/jdk/jdk-21.0.2 && export PATH=$$JAVA_HOME/bin:$$PATH && ./gradlew assembleDebug
 
 # Build release APK
 release:
 	@echo "Building Droid Gangwar release APK..."
+	@rm -rf bin/
 	@export JAVA_HOME=/home/bim/jdk/jdk-21.0.2 && export PATH=$$JAVA_HOME/bin:$$PATH && ./gradlew assembleRelease
 
 # Build debug APK
 debug:
 	@echo "Building Droid Gangwar debug APK..."
+	@rm -rf bin/
 	@export JAVA_HOME=/home/bim/jdk/jdk-21.0.2 && export PATH=$$JAVA_HOME/bin:$$PATH && ./gradlew assembleDebug
 
 # Build and install on connected device
@@ -43,6 +46,7 @@ clean:
 	@rm -rf build/
 	@rm -rf .gradle/
 	@rm -rf app/.cxx/
+	@rm -rf bin/
 
 # Clean everything including dependencies
 distclean: clean
@@ -54,6 +58,7 @@ distclean: clean
 	@rm -rf app/src/main/assets/
 	@find . -name "*.log" -delete
 	@find . -name "*.tmp" -delete
+	@rm -rf bin/
 
 # Show device logs
 logcat:
@@ -130,4 +135,4 @@ help:
 dev: clean build install run
 
 # Quick build and test
-quick: build install
+quick: build install run

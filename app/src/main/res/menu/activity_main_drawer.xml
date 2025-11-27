@@ -37,5 +37,9 @@
             android:id="@+id/nav_final_battle"
             android:icon="@drawable/ic_menu_battle"
             android:title="Final Battle" />
+        <item
+            android:id="@+id/nav_restart_game"
+            android:icon="@drawable/ic_menu_gun"
+            android:title="Restart Game" />
     </group>
 </menu>

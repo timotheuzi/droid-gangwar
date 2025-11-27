@@ -2,47 +2,22 @@ package com.example.droidgangwar.data
 
 import com.example.droidgangwar.model.RandomEvent
 import com.example.droidgangwar.model.EventType
+import com.example.droidgangwar.model.GameState
 import kotlin.random.Random
 
-/**
- * Random Event Data System for Droid Gangwar
- * 
- * This implementation is based on the gangwar_ref source material
- * 
- * Credits:
- * - timotheuzi@hotmail.com - Original concept and game design
- * - maggotcorp - Implementation and enhancements
- */
 object RandomEventData {
     
     private val wanderEvents = listOf(
         "You wander the bustling streets of the city, your footsteps echoing off cracked sidewalks littered with cigarette butts and crumpled fast-food wrappers, when you spot a worn leather wallet half-hidden beneath a pile of discarded newspapers. As you pick it through the grime, you discover $50 in crumpled bills and a few expired credit cards, the previous owner's misfortune becoming your unexpected windfall in this unforgiving urban jungle.",
-        
         "You encounter a street performer on a crowded corner, his guitar case open for donations as he strums soulful melodies that cut through the city's constant din. He pauses his song to give you some insider tips about the local scene - which alleys to avoid after dark, which bars serve the cheapest drinks, and which neighborhoods are currently under gang control, his weathered face telling stories of a life lived on the edge of society's underbelly.",
-        
         "You overhear a group of heavily tattooed gang members huddled in a shadowy doorway, their low voices carrying snippets of conversation about upcoming turf wars and power struggles. Their gold chains glint under the streetlights as they discuss rival crews, planned hits, and the shifting alliances that keep the city's criminal underworld in constant flux, their words painting a picture of a dangerous game where one wrong move could mean the difference between ruling the streets or ending up in an unmarked grave.",
-        
         "You find a quiet spot tucked away in a small park where the city's relentless pace seems to slow for just a moment, the grass worn thin by countless footsteps and the benches scarred with graffiti tags. You sit and rest, letting the relative peace wash over you as your body begins to heal from the accumulated wounds of street life, the distant sounds of traffic and sirens fading into background noise as you regain some much-needed health and clarity of mind.",
-        
         "You notice some suspicious activity unfolding in a nearby alley - shadowy figures exchanging packages in hurried whispers, their nervous glances and fidgeting hands betraying the illicit nature of their transaction. You decide to keep moving, your instincts screaming that getting involved would only lead to trouble, the air thick with tension as you slip away unnoticed, leaving whatever shady deal was about to go down to unfold without your participation.",
-        
         "You bump into an old contact from your past life on the streets, his face lined with the hard years and his clothes hanging loose on a frame that's seen too many lean times. He pulls you aside and shares some juicy gossip about recent events - which gang leaders have fallen out of favor, which cops are on the take, and which new players are making moves to claim territory, his words a valuable currency in the information-starved world of street hustling.",
-        
         "You wander into a rough neighborhood where the buildings seem to lean in threateningly and the streets are patrolled by wary locals who size you up as a potential threat. The air is thick with the scent of cooking grease mixed with something more acrid, and you narrowly avoid trouble by keeping your head down and moving with purpose, the hostile stares following you like shadows until you finally escape back to more familiar territory.",
-        
         "You find some discarded drugs carelessly left behind in a filthy alley, the small packages wrapped in plastic and hidden beneath a pile of rotting garbage that makes your stomach turn. Worth $200 on the street, this unexpected score represents someone's carelessness becoming your opportunity, the drugs promising either profit through resale or personal use to dull the sharp edges of life in the city's unforgiving underbelly.",
-        
         "You help a local shopkeeper who's struggling with a heavy delivery, his small grocery store tucked between two towering apartment buildings that block out most of the sunlight. In gratitude, he rewards you with valuable information about the neighborhood - which buildings have working elevators, which back alleys lead to quick escapes, and which local characters are worth knowing, his words proving more valuable than any cash payment in this information-driven world.",
-        
-        "You wander around the city without incident, the streets flowing past you like a familiar but dangerous river that you navigate with the practiced ease of someone who's learned to survive its currents. The crowds part around you, the vendors hawk their wares, and the traffic flows in its endless rhythm, giving you a brief respite from the constant threats and opportunities that define life in this sprawling metropolis of concrete and ambition.",
-        
-        "A rival gang member steps out from the shadows with a baseball bat, cracking it across his palm menacingly. The mud from the streets squishes under his boots as he approaches with murder in his eyes, threatening to bash your skull in if you don't pay up or fight back.",
-        
-        "You stumble upon a heated confrontation where two gangs are settling their differences in the classic mud fight style - grappling, brawling, and taking turns throwing each other into the filthy street. The air is thick with the scent of wet earth and broken dreams as you decide whether to jump in or run away.",
-        
-        "A hooded figure offers to sell you a fully upgraded pistol, polished and gleaming despite the urban grime. 'This baby's seen some action,' he whispers, 'custom grip, extended magazine, improved sights. Want it?' The price is steep but the weapon looks deadly serious.",
-        
-        "An underground weapons dealer shows you his collection of enhanced melee weapons - upgraded baseball bats wrapped in barbed wire, brass knuckles with spikes, and switchblades that gleam menacingly. 'Everything's been customized for maximum damage,' he grins, 'just like the old days.'"
+        "You wander around the city without incident, the streets flowing past you like a familiar but dangerous river that you navigate with the practiced ease of someone who's learned to survive its currents. The crowds part around you, the vendors hawk their wares, and the traffic flows in its endless rhythm, giving you a brief respite from the constant threats and opportunities that define life in this sprawling metropolis of concrete and ambition."
     )
     
     private val babyMommaMessages = listOf(
@@ -80,65 +55,21 @@ object RandomEventData {
         "The Squidies launch a surprise attack on your territory! 4 deadly operatives assault your position!"
     )
     
-    // Mud fight encounter messages
-    private val mudFightMessages = listOf(
-        "A chaotic street brawl erupts around you - men and women grappling in the mud, trading blows and cursing like there's no tomorrow. Someone shouts 'Welcome to the real fight!' as they challenge you to join the melee!",
-        "The classic mud fight is in full swing! Rival gang members splash through the filthy streets, wrestling and brawling in the sludge. You can feel the mud squelching between your toes as you decide to jump in or run!",
-        "Mud flies everywhere in this brutal street fight! The asphalt is slick with rain and blood as combatants trade devastating blows. The sound of flesh hitting flesh echoes through the alley as you prepare to take on the champions!"
-    )
-    
-    /**
-     * Generate a wandering the city event with enhanced randomization and weapon encounters
-     * This provides the player with varied experiences while exploring the city
-     */
-    fun generateWanderingEvent(gameState: com.example.droidgangwar.model.GameState): RandomEvent {
+    fun generateRandomEvent(gameState: GameState): RandomEvent {
         val random = Random(System.currentTimeMillis())
-        
-        // Chance for mud fight encounter (20% chance)
-        val isMudFight = random.nextFloat() < 0.20f
-        
-        if (isMudFight) {
-            return RandomEvent(
-                id = "wander_mud_fight_${System.currentTimeMillis()}",
-                title = "Mud Fight Encounter",
-                description = mudFightMessages.random(),
-                type = EventType.GANG_FIGHT,
-                effects = mapOf(
-                    "damage" to random.nextInt(15, 35),
-                    "members" to if (random.nextFloat() < 0.3f) 1 else 0, // 30% chance to gain a member
-                    "money" to if (random.nextFloat() < 0.4f) random.nextInt(50, 200) else 0 // 40% chance to earn money
-                )
-            )
-        }
-        
-        // Standard wandering events (remaining 80%)
-        return RandomEvent(
-            id = "wander_${System.currentTimeMillis()}",
-            title = "Exploring the City",
-            description = wanderEvents.random(),
-            type = EventType.TREASURE_FIND,
-            effects = mapOf(
-                "money" to random.nextInt(25, 250),
-                "health" to if (random.nextFloat() < 0.25f) random.nextInt(5, 20) else 0, // 25% chance to heal
-                "weapons" to if (random.nextFloat() < 0.1f) 1 else 0 // 10% chance to find a weapon
-            )
-        )
-    }
-    
-    fun generateRandomEvent(gameState: com.example.droidgangwar.model.GameState): RandomEvent {
-        val random = Random(System.currentTimeMillis())
+        val r = random.nextFloat()
         
         // Event probabilities based on gangwar_ref source
-        val eventTypes = when {
-            random.nextFloat() < 0.08f -> EventType.BABY_MOMMA_INCIDENT // 8% chance
-            random.nextFloat() < 0.10f -> EventType.POLICE_CHASE // 10% chance (cumulative)
-            random.nextFloat() < 0.22f -> EventType.GANG_FIGHT // 12% chance (cumulative)
-            random.nextFloat() < 0.24f -> EventType.SQUIDIE_HIT_SQUAD // 2% chance (cumulative, scales with gang power)
-            random.nextFloat() < 0.39f -> EventType.NPC_ENCOUNTER // 15% chance (cumulative)
+        val eventType = when {
+            r < 0.08f -> EventType.BABY_MOMMA_INCIDENT // 8% chance
+            r < 0.10f -> EventType.POLICE_CHASE // 2% chance (cumulative)
+            r < 0.22f -> EventType.GANG_FIGHT // 12% chance (cumulative)
+            r < 0.24f -> EventType.SQUIDIE_HIT_SQUAD // 2% chance (cumulative, scales with gang power)
+            r < 0.39f -> EventType.NPC_ENCOUNTER // 15% chance (cumulative)
             else -> EventType.TREASURE_FIND // Remaining 61% chance for peaceful events
         }
         
-        return when (eventTypes) {
+        return when (eventType) {
             EventType.BABY_MOMMA_INCIDENT -> RandomEvent(
                 id = "baby_momma_${System.currentTimeMillis()}",
                 title = "Baby Momma Encounter",
@@ -159,7 +90,7 @@ object RandomEventData {
                     "health" to -15 // Take some damage from bullets
                 ),
                 requirements = mapOf(
-                    "has_id" to (gameState.flags.hasId == false) // Only if you don't have fake ID
+                    "has_id" to false // Only if you don't have fake ID
                 )
             )
             
@@ -184,7 +115,7 @@ object RandomEventData {
                     "squidies" to -1 // Take down one Squidie
                 ),
                 requirements = mapOf(
-                    "members" to (gameState.members >= 3) // Only when you have gang presence
+                    "members" to 3 // Only when you have gang presence
                 )
             )
             
@@ -209,70 +140,34 @@ object RandomEventData {
                     "health" to if (random.nextFloat() < 0.3f) 15 else 0 // 30% chance to heal
                 )
             )
-            
-            EventType.HEALTH_REST -> RandomEvent(
-                id = "health_${System.currentTimeMillis()}",
-                title = "Safe Resting Spot",
-                description = "You find a quiet corner where you can tend to your wounds and rest for a moment.",
-                type = EventType.HEALTH_REST,
-                effects = mapOf(
-                    "health" to 20
-                )
-            )
-            
-            EventType.MONEY_FIND -> RandomEvent(
-                id = "money_${System.currentTimeMillis()}",
-                title = "Money Discovery",
-                description = "You stumble upon some discarded cash hidden in an unexpected place.",
-                type = EventType.MONEY_FIND,
-                effects = mapOf(
-                    "money" to random.nextInt(100, 400)
-                )
-            )
-            
-            EventType.DRUG_FIND -> RandomEvent(
-                id = "drug_${System.currentTimeMillis()}",
-                title = "Drug Stash",
-                description = "You find some discarded drugs left behind by someone who needed to make a quick escape.",
-                type = EventType.DRUG_FIND,
-                effects = mapOf(
-                    "drugs" to random.nextInt(1, 3)
-                )
-            )
-            
-            EventType.AMMO_FIND -> RandomEvent(
-                id = "ammo_${System.currentTimeMillis()}",
-                title = "Ammo Cache",
-                description = "You discover a hidden cache of ammunition behind some loose bricks.",
-                type = EventType.AMMO_FIND,
-                effects = mapOf(
-                    "bullets" to random.nextInt(10, 30)
-                )
-            )
-            
-            EventType.WEAPON_FIND -> RandomEvent(
-                id = "weapon_${System.currentTimeMillis()}",
-                title = "Weapon Discovery",
-                description = "You find a discarded weapon that could prove useful in street confrontations.",
-                type = EventType.WEAPON_FIND,
-                effects = mapOf(
-                    "weapons" to 1
-                )
-            )
-            
+
             else -> RandomEvent(
-                id = "generic_${System.currentTimeMillis()}",
-                title = "Random Encounter",
-                description = "Something interesting happens...",
+                id = "fallback_${System.currentTimeMillis()}",
+                title = "Quiet Streets",
+                description = "The streets are quiet for now.",
                 type = EventType.TREASURE_FIND,
-                effects = mapOf("money" to random.nextInt(10, 50))
+                effects = emptyMap()
             )
         }
     }
     
     fun generateAlleywaySearchEvent(roomId: String, searchableItems: List<String>): RandomEvent {
         val random = Random(System.currentTimeMillis())
-        val itemType = searchableItems.random()
+        // Increase trap probability for dangerous places
+        val trapChance = 0.15f
+        
+        // Trap event
+        if (random.nextFloat() < trapChance) {
+             return RandomEvent(
+                id = "trap_${roomId}_${System.currentTimeMillis()}",
+                title = "It's a Trap!",
+                description = "You triggered a hidden trap!",
+                type = EventType.NPC_ENCOUNTER, // Treat as encounter to trigger potential fight or damage
+                effects = mapOf("damage" to random.nextInt(10, 30))
+            )
+        }
+        
+        val itemType = if (searchableItems.isNotEmpty()) searchableItems.random() else "trash"
         
         return when (itemType) {
             "money" -> RandomEvent(
@@ -328,25 +223,22 @@ object RandomEventData {
         }
     }
     
-    fun hasMeetRequirements(event: RandomEvent, gameState: com.example.droidgangwar.model.GameState): Boolean {
+    fun hasMeetRequirements(event: RandomEvent, gameState: GameState): Boolean {
         val requirements = event.requirements
         
         requirements.forEach { (key, value) ->
             when (key) {
-                "has_id" -> if (gameState.flags.hasId != value) return false
-                "members" -> if (gameState.members < 3) return false
-                else -> {
-                    // Handle unknown requirements or ignore them
-                }
+                "has_id" -> if (value is Boolean && gameState.flags.hasId != value) return false
+                "members" -> if (value is Int && gameState.members < value) return false
             }
         }
         
         return true
     }
     
-    fun applyEventEffects(event: RandomEvent, gameState: com.example.droidgangwar.model.GameState) {
+    fun applyEventEffects(event: RandomEvent, gameState: GameState) {
         val effects = event.effects
-
+        
         effects.forEach { (key, value) ->
             when (key) {
                 "money" -> gameState.money += value
@@ -357,12 +249,11 @@ object RandomEventData {
                 "drugs" -> gameState.drugs.crack += value // Default to crack for simple implementation
                 "bullets" -> gameState.weapons.bullets += value
                 "weapons" -> {
-                    if (event.type == EventType.WEAPON_FIND && value > 0) {
-                        gameState.weapons.pistols += 1
+                    if (event.type == EventType.WEAPON_FIND) {
+                        if (value > 0) {
+                            gameState.weapons.pistols += 1
+                        }
                     }
-                }
-                else -> {
-                    // Handle unknown effects or ignore them
                 }
             }
         }

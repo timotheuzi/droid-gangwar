@@ -1,6 +1,7 @@
 package com.example.droidgangwar.ui
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -40,12 +41,24 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.nav_city, R.id.nav_crackhouse, R.id.nav_gunshack,
                 R.id.nav_bank, R.id.nav_bar, R.id.nav_infobooth,
-                R.id.nav_alleyway, R.id.nav_stats, R.id.nav_final_battle,
+                R.id.nav_alleyway, R.id.nav_picknsave, R.id.nav_stats, R.id.nav_final_battle,
                 R.id.nav_mud_fight
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        // Handle back button press with proper deprecation handling
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
 
         // Observe game state changes to update UI
         gameViewModel.gameState.observe(this) { gameState ->
@@ -62,9 +75,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUI(gameState: com.example.droidgangwar.model.GameState) {
-        // Update status bar or other UI elements with game state
-        supportActionBar?.title = "${gameState.playerName} - Day ${gameState.day}"
-        supportActionBar?.subtitle = "$${gameState.money} | Health: ${gameState.health}/${gameState.maxHealth}"
+        // Update status bar to show location and player name
+        supportActionBar?.title = gameState.currentLocation.replace("_", " ").capitalize()
+        supportActionBar?.subtitle = gameState.playerName
     }
 
     private fun navigateToScreen(screen: String) {
@@ -80,13 +93,20 @@ class MainActivity : AppCompatActivity() {
             "bar" -> R.id.nav_bar
             "infobooth" -> R.id.nav_infobooth
             "alleyway" -> R.id.nav_alleyway
+            "picknsave" -> R.id.nav_picknsave
             "stats" -> R.id.nav_stats
             "final_battle" -> R.id.nav_final_battle
             "game_over" -> R.id.nav_game_over
+            "mud_fight" -> R.id.nav_mud_fight
             else -> R.id.nav_city
         }
 
-        navController.navigate(destinationId)
+        try {
+            navController.navigate(destinationId)
+        } catch (e: Exception) {
+            // If navigation fails, show message
+            showMessage("Could not navigate to $screen")
+        }
     }
 
     private fun showMessage(message: String) {
@@ -102,14 +122,5 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    override fun onBackPressed() {
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
     }
 }

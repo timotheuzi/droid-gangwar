@@ -10,4 +10,4 @@
 - [x] Examine AlleywayFragment.kt and fix unresolved references  
 - [x] Fix UI layout to match Kotlin code references
 - [x] Fix missing Observer import
-- [x] Add missing methods to GameViewModel
+-[] [x] Add missing methods to GameViewModel

@@ -1,62 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Colors -->
-    <color name="primary">#FF6B35</color>
-    <color name="primary_dark">#E55A2B</color>
+    <!-- Primary Colors (Dark Modern) -->
+    <color name="primary">#FF5722</color> <!-- Deep Orange -->
+    <color name="primary_dark">#BF360C</color>
     <color name="primary_light">#FF8A65</color>
-    <color name="accent">#FFD23F</color>
-    <color name="accent_dark">#F4C430</color>
+    <color name="accent">#FFC107</color> <!-- Amber -->
+    <color name="accent_dark">#FFA000</color>
 
-    <!-- Background Colors -->
-    <color name="city_background">#F5F5F5</color>
-    <color name="card_background">#FFFFFF</color>
-    <color name="status_background">#2C3E50</color>
+    <!-- Background Colors (Dark Theme) -->
+    <color name="city_background">#121212</color> <!-- Material Dark Background -->
+    <color name="card_background">#1E1E1E</color> <!-- Elevated Surface -->
+    <color name="status_background">#2D2D2D</color>
 
-    <!-- Location Colors -->
-    <color name="crackhouse_primary">#8B4513</color>
-    <color name="crackhouse_secondary">#A0522D</color>
-    <color name="crackhouse_background">#F5DEB3</color>
+    <!-- Location Colors (Vibrant Accents against Dark) -->
+    <color name="crackhouse_primary">#795548</color> <!-- Brown -->
+    <color name="crackhouse_secondary">#5D4037</color>
+    <color name="crackhouse_background">#3E2723</color>
 
-    <color name="gunshack_primary">#FF4444</color>
-    <color name="gunshack_secondary">#CC0000</color>
-    <color name="bank_primary">#2E8B57</color>
-    <color name="bank_secondary">#228B22</color>
-    <color name="bank_background">#F0FFF0</color>
-    <color name="bar_primary">#8B4513</color>
-    <color name="bar_secondary">#654321</color>
-    <color name="infobooth_primary">#4169E1</color>
-    <color name="infobooth_secondary">#0000CD</color>
-    <color name="alleyway_primary">#696969</color>
-    <color name="alleyway_secondary">#2F2F2F</color>
-    <color name="picknsave_primary">#FF8C00</color>
-    <color name="picknsave_secondary">#FF6347</color>
+    <color name="gunshack_primary">#D32F2F</color> <!-- Red -->
+    <color name="gunshack_secondary">#B71C1C</color>
+    
+    <color name="bank_primary">#388E3C</color> <!-- Green -->
+    <color name="bank_secondary">#1B5E20</color>
+    <color name="bank_background">#1B5E20</color>
+    
+    <color name="bar_primary">#FBC02D</color> <!-- Yellow/Gold -->
+    <color name="bar_secondary">#F57F17</color>
+    
+    <color name="infobooth_primary">#1976D2</color> <!-- Blue -->
+    <color name="infobooth_secondary">#0D47A1</color>
+    
+    <color name="alleyway_primary">#616161</color> <!-- Grey -->
+    <color name="alleyway_secondary">#424242</color>
+    
+    <color name="picknsave_primary">#E64A19</color> <!-- Deep Orange -->
+    <color name="picknsave_secondary">#BF360C</color>
 
     <!-- Special Colors -->
-    <color name="wander_primary">#9370DB</color>
-    <color name="wander_secondary">#8A2BE2</color>
-    <color name="final_battle_primary">#DC143C</color>
-    <color name="final_battle_secondary">#B22222</color>
+    <color name="wander_primary">#7B1FA2</color> <!-- Purple -->
+    <color name="wander_secondary">#4A148C</color>
+    <color name="final_battle_primary">#C62828</color> <!-- Dark Red -->
+    <color name="final_battle_secondary">#8E0000</color>
 
-    <!-- Status Colors -->
-    <color name="health_good">#4CAF50</color>
-    <color name="health_medium">#FF9800</color>
-    <color name="health_low">#F44336</color>
-    <color name="money_good">#4CAF50</color>
-    <color name="money_medium">#FF9800</color>
-    <color name="money_low">#F44336</color>
+    <!-- Status Colors (High Contrast) -->
+    <color name="health_good">#66BB6A</color>
+    <color name="health_medium">#FFA726</color>
+    <color name="health_low">#EF5350</color>
+    <color name="money_good">#66BB6A</color>
+    <color name="money_medium">#FFA726</color>
+    <color name="money_low">#EF5350</color>
+    <color name="money_high">#66BB6A</color>
 
-    <!-- Text Colors -->
-    <color name="text_primary">#212121</color>
-    <color name="text_secondary">#757575</color>
+    <!-- Text Colors (Light on Dark) -->
+    <color name="text_primary">#FAFAFA</color> <!-- Nearly White -->
+    <color name="text_secondary">#B0BEC5</color> <!-- Light Grey -->
     <color name="text_white">#FFFFFF</color>
     <color name="text_black">#000000</color>
 
     <!-- Button Colors -->
-    <color name="button_primary">#FF6B35</color>
-    <color name="button_pressed">#E55A2B</color>
-    <color name="button_disabled">#BDBDBD</color>
+    <color name="button_primary">#FF5722</color>
+    <color name="button_pressed">#E64A19</color>
+    <color name="button_disabled">#424242</color>
 
     <!-- Card Colors -->
-    <color name="card_shadow">#1F000000</color>
-    <color name="card_border">#E0E0E0</color>
+    <color name="card_shadow">#40000000</color>
+    <color name="card_border">#33FFFFFF</color>
 </resources>

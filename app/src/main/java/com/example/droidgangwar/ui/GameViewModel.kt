@@ -6,8 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.droidgangwar.data.GameRepository
+import com.example.droidgangwar.data.RandomEventData
 import com.example.droidgangwar.model.*
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class GameViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -25,6 +27,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _currentScreen = MutableLiveData<String>("main_menu")
     val currentScreen: LiveData<String> = _currentScreen
 
+    // Store current combat data for fragments to access
+    var currentCombatData: CombatData? = null
+
     init {
         loadGameState()
     }
@@ -32,10 +37,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun loadGameState() {
         viewModelScope.launch {
             val savedState = repository.loadGameState()
-            if (savedState != null) {
-                _gameState.value = savedState
-            } else {
+            if (savedState == null || savedState.playerName.isNullOrEmpty()) {
+                // No valid saved state, start fresh with start screen
                 _gameState.value = GameState()
+                _currentScreen.value = "start_game"
+            } else {
+                _gameState.value = savedState
+                _currentScreen.value = savedState.currentLocation ?: "city"
             }
         }
     }
@@ -58,6 +66,15 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         saveGameState()
     }
 
+    fun restartGame() {
+        // Clear game state but maybe keep preferences if any
+        // For now, total wipe for new game feeling
+        _gameState.value = GameState()
+        _currentScreen.value = "start_game"
+        saveGameState()
+        _gameMessage.value = "Game restarted! Enter your name and gang name."
+    }
+
     fun navigateToScreen(screen: String) {
         _currentScreen.value = screen
         _gameState.value?.currentLocation = screen
@@ -71,12 +88,41 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         saveGameState()
     }
 
+    fun startMudFight(enemyHealth: Int, enemyCount: Int, enemyType: String, combatId: String) {
+        // Store combat parameters temporarily
+        _combatResult.value = CombatResult().apply {
+            this.enemiesKilled = 0
+            this.fightLog.add("Combat starting: $enemyType ($enemyCount enemies)")
+        }
+        
+        // Store combat data in a way the fragment can access it
+        currentCombatData = CombatData(
+            enemyHealth = enemyHealth.toDouble(),
+            enemyCount = enemyCount,
+            enemyType = enemyType,
+            combatId = combatId,
+            initialMessage = "You engage in combat with $enemyType!"
+        )
+        
+        // Navigate to mud fight screen with proper navigation
+        _currentScreen.value = "mud_fight"
+        
+        // Save state and trigger navigation
+        _gameState.value?.let { gameState ->
+            saveGameState()
+        }
+        
+        // Trigger a message to show navigation is happening
+        _gameMessage.value = "Starting combat with $enemyType!"
+    }
+
     fun buyWeapon(weaponType: String, quantity: Int = 1): Boolean {
         val gameState = _gameState.value ?: return false
 
         val price = when (weaponType) {
             "pistol" -> 1200
             "bullets" -> 100
+            "exploding_bullets" -> 500
             "uzi" -> 100000
             "grenade" -> 1000
             "barbed_wire_bat" -> 2500
@@ -98,22 +144,29 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         when (weaponType) {
             "pistol" -> gameState.weapons.pistols += quantity
             "bullets" -> gameState.weapons.bullets += quantity * 50
+            "exploding_bullets" -> gameState.weapons.explodingBullets += quantity * 20
             "uzi" -> gameState.weapons.uzis += quantity
             "grenade" -> gameState.weapons.grenades += quantity
             "barbed_wire_bat" -> gameState.weapons.barbedWireBat += quantity
             "missile_launcher" -> gameState.weapons.missileLauncher += quantity
             "missile" -> gameState.weapons.missiles += quantity
-            "vest_light" -> gameState.weapons.vest += 5
-            "vest_medium" -> gameState.weapons.vest += 10
-            "vest_heavy" -> gameState.weapons.vest += 15
+            "vest_light" -> gameState.weapons.vest = 5 // Set to specific defense value
+            "vest_medium" -> gameState.weapons.vest = 10 // Set to specific defense value
+            "vest_heavy" -> gameState.weapons.vest = 15 // Set to specific defense value
         }
 
         _gameMessage.value = "Purchased $quantity $weaponType(s) for $${totalCost.formatWithCommas()}!"
         saveGameState()
         return true
     }
+    
+    fun toggleExplodingBullets(enable: Boolean) {
+        val gameState = _gameState.value ?: return
+        gameState.weapons.useExplodingBullets = enable
+        saveGameState()
+    }
 
-    fun tradeDrugs(action: String, drugType: String, quantity: Int): Boolean {
+    fun tradeDrug(drugType: String, action: String, quantity: Int): Boolean {
         val gameState = _gameState.value ?: return false
 
         val price = gameState.drugPrices[drugType] ?: return false
@@ -165,7 +218,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                     _gameMessage.value = "Sold $quantity kilo(s) of $drugType for $${revenue.formatWithCommas()}!"
 
                     // Chance to recruit new member from big drug sales
-                    if (revenue >= 5000 && Math.random() < 0.25) {
+                    if (revenue >= 5000 && Random.nextFloat() < 0.25f) {
                         gameState.members++
                         _gameMessage.value += "\nWord spread! A new recruit joined your gang!"
                     }
@@ -184,10 +237,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun performCombat(weapon: String, enemyType: String, enemyCount: Int): Boolean {
         val gameState = _gameState.value ?: return false
 
-        val enemyHealth = when (enemyType) {
-            "Police Officers" -> enemyCount * 10
-            "Squidie Hit Squad" -> enemyCount * 25
-            else -> enemyCount * 15
+        val enemyHealth: Double = when (enemyType) {
+            "Police Officers" -> enemyCount * 10.0
+            "Squidie Hit Squad" -> enemyCount * 25.0
+            else -> enemyCount * 15.0
         }
 
         val result = CombatSystem.calculateCombat(gameState, weapon, enemyType, enemyCount, enemyHealth)
@@ -213,14 +266,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 if (result.healthChange > 0) {
                     gameState.heal(result.healthChange)
                 } else {
-                    gameState.takeDamage(-result.healthChange)
+                    gameState.takeDamage(-result.healthChange.toInt())
                 }
             }
-            // Update drug count if successful
-            when (drug) {
-                "crack" -> gameState.drugs.crack--
-                "percs" -> gameState.drugs.percs--
-            }
+            // Update drug count if successful is handled in CombatSystem for percs and crack but double check
+            // CombatSystem methods don't update game state directly for item counts usually unless passed by ref or mutable
+            // Let's update counts here to be safe/sure or verify CombatSystem does it.
+            // Checking CombatSystem... it does update gameState.drugs properties directly. Good.
         }
         saveGameState()
     }
@@ -371,37 +423,56 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             return "A new day begins! Day ${gameState.day}"
         }
 
-        // Random wander events
-        val events = listOf(
-            "You wander the streets and find $50!",
-            "You encounter a street performer who gives you tips.",
-            "You overhear some gang members talking about turf wars.",
-            "You find a quiet spot to rest and regain some health.",
-            "You notice some suspicious activity but keep moving.",
-            "You bump into an old contact who shares gossip.",
-            "You wander into a rough neighborhood and avoid trouble.",
-            "You find some discarded drugs worth $200 on the street.",
-            "You help a local shopkeeper and get rewarded with information.",
-            "You wander around the city without incident.",
-            "You see a police patrol and quickly hide in an alley.",
-            "You find a hidden stash of weapons.",
-            "You encounter a beggar who tells you about secret locations."
-        )
-
-        val event = events.random()
-
-        when {
-            "find $50" in event -> gameState.money += 50
-            "find $200" in event -> gameState.money += 200
-            "regain some health" in event -> gameState.heal(10)
-            "hidden stash of weapons" in event -> gameState.weapons.bullets += 5
+        // Random wander events - Use RandomEventData for improved events
+        val event = RandomEventData.generateRandomEvent(gameState)
+        
+        // Check requirements
+        if (!RandomEventData.hasMeetRequirements(event, gameState)) {
+            // Fallback if requirements not met
+             return "You wander the streets but find nothing of interest."
+        }
+        
+        // Apply effects
+        RandomEventData.applyEventEffects(event, gameState)
+        
+        // Check for combat events
+        when (event.type) {
+            EventType.GANG_FIGHT -> {
+                startMudFight(100, 3, "Rival Gang Members", event.id)
+            }
+            EventType.POLICE_CHASE -> {
+                startMudFight(150, 4, "Police Officers", event.id)
+            }
+            EventType.SQUIDIE_HIT_SQUAD -> {
+                 startMudFight(200, 5, "Squidie Hit Squad", event.id)
+            }
+             EventType.NPC_ENCOUNTER -> {
+                 // Sometimes NPCs can be monsters or weirdos
+                 if (Random.nextFloat() < 0.1f) {
+                      startMudFight(300, 1, "Sewer Monster", event.id)
+                      return "You encounter a Sewer Monster! It attacks!"
+                 }
+             }
+             else -> {
+                 // Peaceful event
+             }
         }
 
         saveGameState()
-        return event
-    }
-
-    private fun Int.formatWithCommas(): String {
-        return String.format("%,d", this)
+        return event.description
     }
 }
+
+// Extension function for formatting numbers with commas
+fun Int.formatWithCommas(): String {
+    return String.format("%,d", this)
+}
+
+// Data class for passing combat information between components
+data class CombatData(
+    val enemyHealth: Double,
+    val enemyCount: Int,
+    val enemyType: String,
+    val combatId: String,
+    val initialMessage: String
+)

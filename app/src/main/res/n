@@ -10,21 +10,9 @@
         android:name="com.example.droidgangwar.ui.StartGameFragment"
         android:label="Start Game"
         tools:layout="@layout/fragment_start_game">
-        <argument
-            android:name="isRestart"
-            android:defaultValue="false"
-            app:argType="boolean" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_restart_game"
-        android:name="com.example.droidgangwar.ui.StartGameFragment"
-        android:label="Restart Game"
-        tools:layout="@layout/fragment_start_game">
-        <argument
-            android:name="isRestart"
-            android:defaultValue="true"
-            app:argType="boolean" />
+        <action
+            android:id="@+id/action_startGameFragment_to_cityFragment"
+            app:destination="@id/nav_city" />
     </fragment>
 
     <fragment
@@ -98,4 +86,3 @@
         android:label="Mud Fight"
         tools:layout="@layout/fragment_mud_fight" />
 
-</navigation>

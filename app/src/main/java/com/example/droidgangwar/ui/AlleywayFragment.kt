@@ -21,7 +21,7 @@ class AlleywayFragment : Fragment() {
     private var _binding: FragmentAlleywayBinding? = null
     private val binding get() = _binding!!
     private val gameViewModel: GameViewModel by activityViewModels()
-    
+
     private var alleywayGameState = AlleywayGameState()
     private var currentRoom: AlleywayRoom? = null
 
@@ -80,13 +80,13 @@ class AlleywayFragment : Fragment() {
             }
         }
     }
-    
+
     private fun updateRoomUI() {
         currentRoom?.let { room ->
             binding.apply {
                 // Update room description
                 roomDescriptionText.text = room.description
-                
+
                 // Show search option if room is searchable
                 if (room.searchable) {
                     searchButton.visibility = View.VISIBLE
@@ -94,17 +94,17 @@ class AlleywayFragment : Fragment() {
                 } else {
                     searchButton.visibility = View.GONE
                 }
-                
+
                 // Show exploration option
                 exploreButton.visibility = View.VISIBLE
                 exploreButton.text = "Explore ${room.title}"
-                
+
                 // Show available exits
                 val exitsText = room.exits.entries.joinToString(", ") { (direction, targetRoom) ->
                     "${direction.replace("_", " ")} (${AlleywayRoomData.getRoomById(targetRoom)?.title ?: "Unknown"})"
                 }
                 exitsTextView.text = "Exits: $exitsText"
-                
+
                 // Show room atmosphere
                 atmosphereTextView.text = "Atmosphere: ${room.atmosphere.replace("_", " ").replaceFirstChar { it.uppercase() }}"
             }
@@ -117,67 +117,88 @@ class AlleywayFragment : Fragment() {
             if (room.searchable) {
                 // Generate search event
                 val searchEvent = RandomEventData.generateAlleywaySearchEvent(room.roomId, room.searchableItems)
-                
+
                 // Apply event effects
                 RandomEventData.applyEventEffects(searchEvent, gameState)
-                
+
                 // Show results
                 showEventDialog(searchEvent.title, searchEvent.description)
-                
+
                 // Update game state
                 gameViewModel.updateGameState(gameState)
                 gameViewModel.incrementSteps()
-                
+
                 // Increment room search count
                 val currentCount = alleywayGameState.roomSearchCount[room.roomId] ?: 0
                 alleywayGameState.roomSearchCount.put(room.roomId, currentCount + 1)
             }
         }
     }
-    
+
     private fun exploreRoom() {
         val gameState = gameViewModel.gameState.value ?: return
-        
+
         // Generate random exploration event
         val exploreEvent = RandomEventData.generateRandomEvent(gameState)
-        
+
         // Check if event meets requirements
         if (RandomEventData.hasMeetRequirements(exploreEvent, gameState)) {
             // Apply event effects
             RandomEventData.applyEventEffects(exploreEvent, gameState)
-            
+
             // Show results
             showEventDialog(exploreEvent.title, exploreEvent.description)
-            
+
             // Handle combat events
             when (exploreEvent.type) {
-                EventType.POLICE_CHASE,
-                EventType.GANG_FIGHT,
+                EventType.POLICE_CHASE -> {
+                    startMudFight("Police Officers", (3..5).random(), "Police attack!")
+                }
+                EventType.GANG_FIGHT -> {
+                    startMudFight("Gang Members", (2..6).random(), "Rival gang attacks!")
+                }
                 EventType.SQUIDIE_HIT_SQUAD -> {
-                    // Start combat - for now just show message
-                    showMessage("Combat initiated! This would normally start a MUD fight sequence.")
+                    startMudFight("Squidie Hit Squad", (2..4).random(), "Squidie assassins strike!")
+                }
+                EventType.STREET_THUG_FIGHT -> {
+                    startMudFight("Street Thugs", (1..3).random(), exploreEvent.description)
+                }
+                EventType.DEALER_FIGHT -> {
+                    startMudFight("Drug Dealers", (1..4).random(), exploreEvent.description)
+                }
+                EventType.BOUNCER_FIGHT -> {
+                    startMudFight("Bouncers", (1..5).random(), exploreEvent.description)
+                }
+                EventType.HOMELESS_FIGHT -> {
+                    startMudFight("Crazy Homeless People", (1..2).random(), exploreEvent.description)
+                }
+                EventType.BUSINESSMAN_FIGHT -> {
+                    startMudFight("Businessmen", (1..3).random(), exploreEvent.description)
+                }
+                EventType.STREET_PUNK_FIGHT -> {
+                    startMudFight("Street Punks", (2..5).random(), exploreEvent.description)
                 }
                 else -> {
                     // Regular event - continue exploring
                 }
             }
-            
+
             // Update game state
             gameViewModel.updateGameState(gameState)
             gameViewModel.incrementSteps()
         }
     }
-    
+
     private fun lookAround() {
         currentRoom?.let { room ->
             val lookText = buildString {
                 append("${room.title}\n\n")
                 append(room.description)
-                
+
                 if (room.searchable) {
                     append("\n\nThis area looks searchable. You might find hidden items or dangers.")
                 }
-                
+
                 val atmoshereDescription = when (room.atmosphere) {
                     "foreboding" -> "An ominous feeling fills the air. Danger could strike at any moment."
                     "mysterious" -> "Strange sounds and shadows suggest secrets are hidden here."
@@ -187,25 +208,25 @@ class AlleywayFragment : Fragment() {
                 }
                 append("\n\n$atmoshereDescription")
             }
-            
+
             showMessage(lookText)
         }
     }
-    
+
     private fun showMoveOptions() {
         currentRoom?.let { room ->
             val moves = room.exits.entries.toList()
-            
+
             if (moves.isEmpty()) {
                 showMessage("No exits available from this room.")
                 return
             }
-            
+
             val options = moves.map { (direction, targetRoom) ->
                 val roomTitle = AlleywayRoomData.getRoomById(targetRoom)?.title ?: "Unknown Location"
                 "${direction.replace("_", " ").replaceFirstChar { it.uppercase() }} - $roomTitle"
             }.toTypedArray()
-            
+
             // Show dialog for direction selection
             androidx.appcompat.app.AlertDialog.Builder(requireContext())
                 .setTitle("Choose Direction to Move")
@@ -217,26 +238,26 @@ class AlleywayFragment : Fragment() {
                 .show()
         }
     }
-    
+
     private fun moveToRoom(roomId: String) {
         if (roomId == "city") {
             // Special case - return to city
             gameViewModel.navigateToScreen("city")
             return
         }
-        
+
         val newRoom = AlleywayRoomData.getRoomById(roomId)
         if (newRoom != null) {
             alleywayGameState.currentRoom = roomId
             alleywayGameState.visitedRooms.add(roomId)
             currentRoom = newRoom
-            
+
             // Update UI
             updateRoomUI()
-            
+
             // Advance step counter
             gameViewModel.incrementSteps()
-            
+
             // Show room entry message
             showMessage("You move to: ${newRoom.title}\n\n${newRoom.description}")
         } else {
@@ -246,7 +267,7 @@ class AlleywayFragment : Fragment() {
 
     private fun searchAlleyLegacy() {
         val gameState = gameViewModel.gameState.value ?: return
-        
+
         val searchResults = listOf(
             "You find $200 hidden behind a dumpster",
             "You discover a stash of weed worth $500",
@@ -254,14 +275,14 @@ class AlleywayFragment : Fragment() {
             "You find some ammo - 10 rounds",
             "You find a knife - useful for close combat"
         )
-        
+
         val result = searchResults.random()
         showMessage("Alleyway Search:\n\n$result")
     }
 
     private fun fightInAlley() {
         val gameState = gameViewModel.gameState.value ?: return
-        
+
         showMessage("alleyway Fight:\n\nYou engage in a violent encounter in the dark alleyway!")
     }
 
@@ -275,13 +296,26 @@ class AlleywayFragment : Fragment() {
             .setPositiveButton("OK", null)
             .show()
     }
-    
+
     private fun showEventDialog(title: String, description: String) {
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setMessage(description)
             .setPositiveButton("OK", null)
             .show()
+    }
+
+    private fun startMudFight(enemyType: String, enemyCount: Int, initialMessage: String) {
+        val enemyHealth = when (enemyType) {
+            "Police Officers" -> enemyCount * 12
+            "Gang Members" -> enemyCount * 15
+            "Squidie Hit Squad" -> enemyCount * 20
+            else -> enemyCount * 15
+        }
+
+        val combatId = "alley_combat_${System.currentTimeMillis()}"
+
+        gameViewModel.startMudFight(enemyHealth, enemyCount, enemyType, combatId)
     }
 
     override fun onDestroyView() {
